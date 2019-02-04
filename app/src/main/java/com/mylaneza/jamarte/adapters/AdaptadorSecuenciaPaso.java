@@ -13,6 +13,8 @@ import com.mylaneza.jamarte.entities.Paso;
 import com.mylaneza.jamarte.entities.Secuencia;
 import com.mylaneza.jamarte.entities.SecuenciaPaso;
 
+import org.w3c.dom.Text;
+
 import java.util.Vector;
 
 /**
@@ -54,13 +56,16 @@ public class AdaptadorSecuenciaPaso extends BaseAdapter {
         }
         TextView nombre = row.findViewById(R.id.spNombre);
         TextView repeticion = row.findViewById(R.id.spRepeticion);
-
-
+        TextView orden = row.findViewById(R.id.spOrden);
+        TextView detalle = row.findViewById(R.id.spDetalle);
+        TextView tiempos = row.findViewById(R.id.spTiempos);
         SecuenciaPaso p = pasos[i];
         //Log.i("Paso",p.toString());
         nombre.setText(p.getNombre());
         repeticion.setText(""+p.repeticion);
-
+        orden.setText(""+p.orden);
+        detalle.setText(p.detalle);
+        tiempos.setText(""+(p.repeticion*p.getCuenta()));
         return row;
     }
 }
