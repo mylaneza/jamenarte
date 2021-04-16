@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">Jam en Arte</string>
+    <string name="strMiembros">Miembros</string>
+    <string name="strAvances">Avances</string>
+    <string name="strPasos">Pasos</string>
+    <string name="strSesiones">Sesiones</string>
+    <string name="strSecuencias">Secuencias</string>
+    <string name="strLecciones">Lecciones</string>
+    <string name="strPasosSecuencia">Pasos de secuencia</string>
+    <string name="strRepeticiones">Repeticiones</string>
+    <string name="strOrden">Orden</string>
+    <string name="strDetalle">Detalle</string>
+    <string name="strNew">Nuevo</string>
+
+    <string name="strNombre">Nombre</string>
+    <string name="strNickname">Nickname</string>
+    <string name="strApellidoP">Apellido Paterno</string>
+    <string name="strApellidoM">Apellido Materno</string>
+    <string name="strCumple">Cumple</string>
+
+    <string name="strNivel">Nivel</string>
+    <string name="strLeccion">Leccion</string>
+    <string name="strSecuencia">Secuencia</string>
+    <string name="strRol">Rol</string>
+    <string name="strSesion">Sesion</string>
+    <string name="strSalvar">Salvar</string>
+    <string name="strLider">Lider</string>
+    <string name="strFollower">Follower</string>
+    <string name="strBase">Base</string>
+    <string name="strCuenta">Cuenta</string>
+
+    <string name="strEscuela">Escuela</string>
+    <string name="strDescripcion">Descripcion</string>
+    <string name="strObjetivo">Objetivo</string>
+    <string name="strAgregaPaso">Agrega Paso</string>
+    <string name="strPaso">Paso</string>
+    <string name="strMiembro">Miembro</string>
+
+    <string name="strMonto">Monto</string>
+    <string name="strFecha">Fecha</string>
+    <string name="strLista">Lista</string>
+    <string name="strNumero">Numero</string>
+
+    <string name="strExportarBase">Exportar</string>
+
+    <string name="strNuevoAsistente">Nuevo Asistente</string>
+    <string name="strActualizarBase">Actualizar Base</string>
+    <string name="strQuery">Busqueda Por</string>
+    <string name="strBuscar">Buscar</string>
+    <string name="strMujer">Mujer</string>
+    <string name="strHombre">Hombre</string>
+</resources>
