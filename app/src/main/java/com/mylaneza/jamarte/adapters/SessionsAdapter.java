@@ -13,18 +13,18 @@ import com.mylaneza.jamarte.entities.Session;
 /**
  * Created by mylaneza on 12/08/2018.
  */
-public class AdaptadorSesiones extends BaseAdapter{
+public class SessionsAdapter extends BaseAdapter{
 
-    public Session sesiones[];
+    public Session[] sessions;
     Context ctx;
 
-    public  AdaptadorSesiones(Context ctx, Session sesiones[]){
+    public SessionsAdapter(Context ctx, Session[] sessions){
         this.ctx = ctx;
-        this.sesiones = sesiones;
+        this.sessions = sessions;
     }
     @Override
     public int getCount() {
-        return sesiones.length;
+        return sessions.length;
     }
 
     @Override
@@ -46,17 +46,17 @@ public class AdaptadorSesiones extends BaseAdapter{
         }else{
             row = view;
         }
-        TextView numero = row.findViewById(R.id.tvSesionNumero);
-        TextView monto = row.findViewById(R.id.tvSesionMonto);
-        TextView fecha = row.findViewById(R.id.tvSesionFecha);
-        TextView escuela = row.findViewById(R.id.tvSesionEscuela);
+        TextView number = row.findViewById(R.id.tvSesionNumero);
+        TextView amount = row.findViewById(R.id.tvSesionMonto);
+        TextView date = row.findViewById(R.id.tvSesionFecha);
+        TextView school = row.findViewById(R.id.tvSesionEscuela);
 
-        Session p = sesiones[i];
-        //Log.i("Paso",p.toString());
-        numero.setText(""+p.number);
-        monto.setText(""+p.amount);
-        fecha.setText(p.date);
-        escuela.setText(""+p.school);
+        Session p = sessions[i];
+
+        number.setText(ctx.getString(R.string.strInteger,p.number));
+        amount.setText(ctx.getString(R.string.strDouble,p.amount));
+        date.setText(p.date);
+        school.setText(p.school);
         return row;
     }
 }

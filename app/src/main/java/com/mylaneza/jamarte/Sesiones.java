@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.mylaneza.jamarte.adapters.AdaptadorSesiones;
+import com.mylaneza.jamarte.adapters.SessionsAdapter;
 import com.mylaneza.jamarte.database.DBHelper;
 import com.mylaneza.jamarte.entities.Session;
 
@@ -49,7 +49,7 @@ public class Sesiones extends AppCompatActivity implements AdapterView.OnItemCli
 
         calculaTotal();
 
-        list.setAdapter(new AdaptadorSesiones(this,sesiones));
+        list.setAdapter(new SessionsAdapter(this,sesiones));
         list.setOnItemClickListener(this);
 
     }
@@ -116,8 +116,8 @@ public class Sesiones extends AppCompatActivity implements AdapterView.OnItemCli
                     this.sesiones = db.getSesiones();
                 }
             }
-            AdaptadorSesiones ap = (AdaptadorSesiones) list.getAdapter();
-            ap.sesiones = sesiones;
+            SessionsAdapter ap = (SessionsAdapter) list.getAdapter();
+            ap.sessions = sesiones;
             ap.notifyDataSetChanged();
             calculaTotal();
         }else{
