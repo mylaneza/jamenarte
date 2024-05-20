@@ -13,7 +13,7 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.mylaneza.jamarte.adapters.AdaptadorSecuencias;
+import com.mylaneza.jamarte.adapters.SequenceAdapter;
 import com.mylaneza.jamarte.database.DBHelper;
 import com.mylaneza.jamarte.entities.Sequence;
 
@@ -34,7 +34,7 @@ public class Secuencias extends AppCompatActivity implements AdapterView.OnItemC
 
         secuencias = db.getSecuencias(id);
 
-        list.setAdapter(new AdaptadorSecuencias(this,secuencias));
+        list.setAdapter(new SequenceAdapter(this,secuencias));
         list.setOnItemClickListener(this);
     }
 

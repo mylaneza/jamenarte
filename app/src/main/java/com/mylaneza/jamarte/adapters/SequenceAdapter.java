@@ -13,19 +13,19 @@ import com.mylaneza.jamarte.entities.Sequence;
 /**
  * Created by mylaneza on 12/08/2018.
  */
-public class AdaptadorSecuencias extends BaseAdapter {
+public class SequenceAdapter extends BaseAdapter {
 
-    Sequence secuencias[];
+    Sequence[] sequences;
     Context ctx;
 
-    public AdaptadorSecuencias(Context ctx, Sequence secuencias[]){
+    public SequenceAdapter(Context ctx, Sequence[] sequences){
         this.ctx = ctx;
-        this.secuencias = secuencias;
+        this.sequences = sequences;
     }
 
     @Override
     public int getCount() {
-        return secuencias.length;
+        return sequences.length;
     }
 
     @Override
@@ -47,10 +47,9 @@ public class AdaptadorSecuencias extends BaseAdapter {
         }else{
             row = view;
         }
-        TextView nombre = row.findViewById(R.id.rsnombre);
-        Sequence s = secuencias[i];
-        //Log.i("Paso",p.toString());
-        nombre.setText(s.name);
+        TextView name = row.findViewById(R.id.rsnombre);
+        Sequence s = sequences[i];
+        name.setText(s.name);
 
         return row;
     }
