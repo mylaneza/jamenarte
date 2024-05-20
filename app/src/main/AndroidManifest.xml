@@ -52,7 +52,7 @@
             android:label="@string/strPaso"
             android:parentActivityName=".Pasos" />
         <activity
-            android:name=".forms.NewLista"
+            android:name=".forms.NewAssistanceList"
             android:label="@string/strNuevoAsistente"
             android:parentActivityName=".SesionesEstudiantes"
             android:theme="@style/Theme.AppCompat.Dialog" />

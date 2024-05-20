@@ -15,7 +15,7 @@ import com.mylaneza.jamarte.adapters.MembersAdapter;
 import com.mylaneza.jamarte.database.DBHelper;
 import com.mylaneza.jamarte.entities.Member;
 import com.mylaneza.jamarte.entities.Session;
-import com.mylaneza.jamarte.forms.NewLista;
+import com.mylaneza.jamarte.forms.NewAssistanceList;
 
 import java.util.Vector;
 import android.util.Log;
@@ -171,7 +171,7 @@ public class SesionesEstudiantes extends AppCompatActivity implements AdapterVie
 
 
     public void openNewLista(View v){
-        Intent intent = new Intent(this, NewLista.class);
+        Intent intent = new Intent(this, NewAssistanceList.class);
         //ID de la sesion
         intent.putExtra("com.mylaneza.jamarte.ID",id);
         //Agregar la lista de participantes ya agregados a la lista
