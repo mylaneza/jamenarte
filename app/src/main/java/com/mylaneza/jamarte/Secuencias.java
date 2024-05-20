@@ -17,7 +17,7 @@ import com.mylaneza.jamarte.adapters.SequenceAdapter;
 import com.mylaneza.jamarte.database.DBHelper;
 import com.mylaneza.jamarte.entities.Sequence;
 
-import com.mylaneza.jamarte.forms.NewSecuencia;
+import com.mylaneza.jamarte.forms.NewSequence;
 
 public class Secuencias extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -56,7 +56,7 @@ public class Secuencias extends AppCompatActivity implements AdapterView.OnItemC
     }
 
     public void openNewSecuencia(View v){
-        Intent intent = new Intent(this, NewSecuencia.class);
+        Intent intent = new Intent(this, NewSequence.class);
         intent.putExtra("com.mylaneza.jamarte.LECCION", id);
         startActivityForResult(intent,0);
     }
@@ -64,7 +64,7 @@ public class Secuencias extends AppCompatActivity implements AdapterView.OnItemC
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent intent = new Intent(this, NewSecuencia.class);
+        Intent intent = new Intent(this, NewSequence.class);
         intent.putExtra("com.mylaneza.jamarte.ID", secuencias[i].id);
         startActivityForResult(intent,0);
         //return true;

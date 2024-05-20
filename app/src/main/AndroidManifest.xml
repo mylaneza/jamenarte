@@ -65,7 +65,7 @@
             android:label="@string/strMiembro"
             android:parentActivityName=".Miembros" />
         <activity
-            android:name=".forms.NewSecuencia"
+            android:name=".forms.NewSequence"
             android:label="@string/strSecuencia"
             android:parentActivityName=".Secuencias" />
         <activity
