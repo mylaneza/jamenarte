@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.mylaneza.jamarte.adapters.AdaptadorLecciones;
+import com.mylaneza.jamarte.adapters.LessonsAdapter;
 
 import com.mylaneza.jamarte.database.DBHelper;
 import com.mylaneza.jamarte.entities.Lesson;
@@ -46,7 +46,7 @@ public class Lecciones extends AppCompatActivity implements AdapterView.OnItemCl
             lecciones = db.getLeccionesDeEscuela(query);
         else
             lecciones = db.getLecciones();
-        list.setAdapter(new AdaptadorLecciones(this,lecciones));
+        list.setAdapter(new LessonsAdapter(this,lecciones));
         list.setOnItemClickListener(this);
 
         /* Activity Register */
@@ -117,8 +117,8 @@ public class Lecciones extends AppCompatActivity implements AdapterView.OnItemCl
                     lecciones = db.getLeccionesDeEscuela(query);
                 else
                     lecciones = db.getLecciones();
-                AdaptadorLecciones ap = (AdaptadorLecciones) list.getAdapter();
-                ap.lecciones = lecciones;
+                LessonsAdapter ap = (LessonsAdapter) list.getAdapter();
+                ap.lessons = lecciones;
                 ap.notifyDataSetChanged();
             }else{
                 //Regresa de nueva Leccion
@@ -132,16 +132,16 @@ public class Lecciones extends AppCompatActivity implements AdapterView.OnItemCl
                     Lesson[] lecciones = db.getLeccionesDeEscuela(escuela);
                     if(lecciones.length > 0){
                         this.lecciones = lecciones;
-                        AdaptadorLecciones ap = (AdaptadorLecciones) list.getAdapter();
-                        ap.lecciones = this.lecciones;
+                        LessonsAdapter ap = (LessonsAdapter) list.getAdapter();
+                        ap.lessons = this.lecciones;
                         ap.notifyDataSetChanged();
                     }else{
                         Toast.makeText(this,"No se encontraron sesiones para esa escuela.",Toast.LENGTH_SHORT).show();
                     }
                 }else{
                     this.lecciones = db.getLecciones();
-                    AdaptadorLecciones ap = (AdaptadorLecciones) list.getAdapter();
-                    ap.lecciones = this.lecciones;
+                    LessonsAdapter ap = (LessonsAdapter) list.getAdapter();
+                    ap.lessons = this.lecciones;
                     ap.notifyDataSetChanged();
                 }
 

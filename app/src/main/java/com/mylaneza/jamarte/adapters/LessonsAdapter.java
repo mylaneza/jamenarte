@@ -14,19 +14,19 @@ import com.mylaneza.jamarte.R;
 /**
  * Created by mylaneza on 16/08/2018.
  */
-public class AdaptadorLecciones extends BaseAdapter {
+public class LessonsAdapter extends BaseAdapter {
 
-    public Lesson lecciones[];
+    public Lesson[] lessons;
     Activity ctx;
 
 
-    public AdaptadorLecciones(Activity ctx, Lesson[] lecciones){
+    public LessonsAdapter(Activity ctx, Lesson[] lessons){
         this.ctx = ctx;
-        this.lecciones = lecciones;
+        this.lessons = lessons;
     }
     @Override
     public int getCount() {
-        return lecciones.length;
+        return lessons.length;
     }
 
     @Override
@@ -48,21 +48,20 @@ public class AdaptadorLecciones extends BaseAdapter {
         }else{
             row = view;
         }
-        TextView nombre = row.findViewById(R.id.rowLeccionNivelNombre);
+        TextView name = row.findViewById(R.id.rowLeccionNivelNombre);
 
 
-        TextView escuela = row.findViewById(R.id.rowLeccionEscuela);
+        TextView school = row.findViewById(R.id.rowLeccionEscuela);
 
 
-        TextView objetivo = row.findViewById(R.id.rowLeccionObjetivo);
+        TextView objective = row.findViewById(R.id.rowLeccionObjetivo);
 
 
-        Lesson p = lecciones[i];
-        //Log.i("Paso",p.toString());
-        nombre.setText(p.level +"-"+p.name);
-        escuela.setText(p.school);
-        objetivo.setText(p.objective);
+        Lesson p = lessons[i];
 
+        name.setText(ctx.getString(R.string.strLessonRow, p.level,p.name));
+        school.setText(p.school);
+        objective.setText(p.objective);
 
         return row;
     }
