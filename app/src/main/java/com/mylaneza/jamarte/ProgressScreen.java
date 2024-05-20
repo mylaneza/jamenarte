@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.mylaneza.jamarte.adapters.AdaptadorAvances;
+import com.mylaneza.jamarte.adapters.ProgressAdapter;
 import com.mylaneza.jamarte.database.DBHelper;
 import com.mylaneza.jamarte.entities.Progress;
 import com.mylaneza.jamarte.entities.Lesson;
@@ -42,7 +42,7 @@ public class ProgressScreen extends AppCompatActivity implements AdapterView.OnI
         DBHelper db = new DBHelper(this);
         Progress[] avances = db.getAvances(memberId);
         lessons = db.getLeccionesDeEscuela(school);
-        list.setAdapter(new AdaptadorAvances(this,avances,lessons,memberId));
+        list.setAdapter(new ProgressAdapter(this,avances,lessons,memberId));
         list.setOnItemClickListener(this);
         list.setOnItemLongClickListener(this);
     }
@@ -57,8 +57,8 @@ public class ProgressScreen extends AppCompatActivity implements AdapterView.OnI
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Lesson leccion = lessons[i];
-        AdaptadorAvances adaptador = (AdaptadorAvances)list.getAdapter();
-        Progress avance = adaptador.getAvance(leccion.id);
+        ProgressAdapter adaptador = (ProgressAdapter)list.getAdapter();
+        Progress avance = adaptador.getProgress(leccion.id);
         if(avance.rol == 3)
             avance.rol = 0;
         else
@@ -138,16 +138,16 @@ public class ProgressScreen extends AppCompatActivity implements AdapterView.OnI
                     Lesson[] lecciones = db.getLeccionesDeEscuela(escuela);
                     if(lecciones.length > 0){
                         this.lessons = lecciones;
-                        AdaptadorAvances ap = (AdaptadorAvances) list.getAdapter();
-                        ap.lecciones = this.lessons;
+                        ProgressAdapter ap = (ProgressAdapter) list.getAdapter();
+                        ap.lessons = this.lessons;
                         ap.notifyDataSetChanged();
                     }else{
                         Toast.makeText(this,"No se encontraron sesiones para esa escuela.",Toast.LENGTH_SHORT).show();
                     }
                 }else{
                     this.lessons = db.getLecciones();
-                    AdaptadorAvances ap = (AdaptadorAvances) list.getAdapter();
-                    ap.lecciones = this.lessons;
+                    ProgressAdapter ap = (ProgressAdapter) list.getAdapter();
+                    ap.lessons = this.lessons;
                     ap.notifyDataSetChanged();
                 }
             }

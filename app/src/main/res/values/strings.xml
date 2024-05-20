@@ -54,4 +54,5 @@
     <string name="strSchool">Escuela</string>
     <string name="strCalaveraSwing">Calavera Swing</string>
     <string name="strJamArte">Jam en Arte</string>
+    <string name="strLessonRow">%1$s-%2$s</string>
 </resources>
