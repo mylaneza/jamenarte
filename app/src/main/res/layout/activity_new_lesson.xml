@@ -73,13 +73,13 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:onClick="agregaPaso"
+                    android:onClick="addStep"
                     android:text="@string/strAgregaPaso"/>
 
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:onClick="secuencias"
+                    android:onClick="goToSequences"
                     android:text="@string/strSecuencias" />
 
 

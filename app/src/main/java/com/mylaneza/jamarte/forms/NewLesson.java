@@ -27,133 +27,133 @@ import com.mylaneza.jamarte.entities.Step;
 
 public class NewLesson extends AppCompatActivity implements AdapterView.OnItemLongClickListener {
 
-    EditText nombre;
-    EditText nivel;
-    EditText escuela;
-    EditText objetivo;
-    EditText descripcion;
-    Spinner spPasos;
-    ListView listaPasos;
+    EditText name;
+    EditText level;
+    EditText school;
+    EditText objective;
+    EditText description;
+    Spinner stepsSpinner;
+    ListView stepsList;
     long id;
 
-    Lesson leccion;
+    Lesson lesson;
 
-    Step[] pasos;
+    Step[] steps;
 
-    String[] nombresPasos;
+    String[] stepsNames;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_lesson);
-        nombre = findViewById(R.id.etLeccionNombre);
-        nivel = findViewById(R.id.etLeccionNivel);
-        escuela = findViewById(R.id.etLeccionEscuela);
-        objetivo = findViewById(R.id.etLeccionObjetivo);
-        descripcion = findViewById(R.id.etDescripcion);
-        spPasos = findViewById(R.id.spPasos);
+        name = findViewById(R.id.etLeccionNombre);
+        level = findViewById(R.id.etLeccionNivel);
+        school = findViewById(R.id.etLeccionEscuela);
+        objective = findViewById(R.id.etLeccionObjetivo);
+        description = findViewById(R.id.etDescripcion);
+        stepsSpinner = findViewById(R.id.spPasos);
 
-        DBHelper db = new DBHelper(this);
-        pasos = db.getPasos();
-        getNombresPasos();
-        ArrayAdapter<String> oAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, nombresPasos);
-        oAdapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
-        spPasos.setAdapter(oAdapter);
+        try(DBHelper db = new DBHelper(this)){
+            steps = db.getPasos();
+            getStepsNames();
+            ArrayAdapter<String> oAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, stepsNames);
+            oAdapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
+            stepsSpinner.setAdapter(oAdapter);
 
+            stepsList = findViewById(R.id.lvLeccionPasos);
+            stepsList.setOnItemLongClickListener(this);
+            id = getIntent().getLongExtra("com.mylaneza.jamarte.ID",-1);
+            if(id > -1) {
 
-        listaPasos = findViewById(R.id.lvLeccionPasos);
-        listaPasos.setOnItemLongClickListener(this);
-        id = getIntent().getLongExtra("com.mylaneza.jamarte.ID",-1);
-        if(id > -1) {
+                lesson = db.getLeccion(id);
 
-            leccion = db.getLeccion(id);
+                if(lesson != null){
+                    setTitle(lesson.level +"-"+ lesson.name);
+                    name.setText(lesson.name);
+                    level.setText(lesson.level);
+                    school.setText(lesson.school);
+                    objective.setText(lesson.objective);
+                    description.setText(lesson.description);
+                    Step[] step1 = new Step[0];
+                    step1 = lesson.steps.toArray(step1);
+                    stepsList.setAdapter(new StepsAdapter(this,step1));
+                }
+            }else{
+                Step[] step1 = new Step[0];
 
-            if(leccion != null){
-                //setTitle(leccion.objetivo);
-                setTitle(leccion.level +"-"+leccion.name);
-                nombre.setText(leccion.name);
-                nivel.setText(leccion.level);
-                escuela.setText(leccion.school);
-                objetivo.setText(leccion.objective);
-                descripcion.setText(leccion.description);
-                Step[] pasos1 = new Step[0];
-                pasos1 = leccion.steps.toArray(pasos1);
-                listaPasos.setAdapter(new StepsAdapter(this,pasos1));
+                stepsList.setAdapter(new StepsAdapter(this,step1));
+                lesson = new Lesson();
             }
-        }else{
-            Step[] pasos1 = new Step[0];
+        }
 
-            listaPasos.setAdapter(new StepsAdapter(this,pasos1));
-            leccion = new Lesson();
+
+    }
+
+    private void getStepsNames(){
+        stepsNames = new String[steps.length];
+        for(int i = 0; i < steps.length ; i++){
+            stepsNames[i] = steps[i].name +" "+ steps[i].base+" "+ steps[i].count;
         }
     }
 
-    private void getNombresPasos(){
-        nombresPasos = new String[pasos.length];
-        for(int i = 0 ; i < pasos.length ; i++){
-            nombresPasos[i] = pasos[i].name +" "+pasos[i].base+" "+pasos[i].count;
-        }
-    }
 
-
-    public void agregaPaso(View v){
-        leccion.steps.add(pasos[spPasos.getSelectedItemPosition()]);
-        StepsAdapter ap = (StepsAdapter) listaPasos.getAdapter();
-        Step[] pasos1 = new Step[0];
-        pasos1 = leccion.steps.toArray(pasos1);
-        ap.steps =  pasos1;
-        //Log.i("PASOS",""+pasos1.length);
+    public void addStep(View v){
+        lesson.steps.add(steps[stepsSpinner.getSelectedItemPosition()]);
+        StepsAdapter ap = (StepsAdapter) stepsList.getAdapter();
+        Step[] steps1 = new Step[0];
+        steps1 = lesson.steps.toArray(steps1);
+        ap.steps =  steps1;
         ap.notifyDataSetChanged();
         findViewById(R.id.newLessonView).invalidate();
     }
 
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l){
-        //Borrar paso
-        leccion.steps.remove(i);
-        StepsAdapter ap = (StepsAdapter) listaPasos.getAdapter();
-        Step[] pasos1 = new Step[0];
-        pasos1 = leccion.steps.toArray(pasos1);
-        ap.steps =  pasos1;
+        lesson.steps.remove(i);
+        StepsAdapter ap = (StepsAdapter) stepsList.getAdapter();
+        Step[] steps1 = new Step[0];
+        steps1 = lesson.steps.toArray(steps1);
+        ap.steps =  steps1;
         ap.notifyDataSetChanged();
         return true;
     }
 
-    public void salvar(View v){
-        leccion.name = this.nombre.getText().toString();
-        leccion.level = this.nivel.getText().toString();
-        leccion.school = this.escuela.getText().toString();
-        leccion.objective = this.objetivo.getText().toString();
-        leccion.description = this.descripcion.getText().toString();
-        DBHelper db = new DBHelper(this);
-        if(this.id < 0){
-
-            long  id = db.insertaLeccion(leccion);
-            if(id > -1) {
-                setResult(RESULT_OK);
-                Toast.makeText(this, "Leccion creada", Toast.LENGTH_SHORT).show();
-                finish();
+    public void save(View v){
+        lesson.name = this.name.getText().toString();
+        lesson.level = this.level.getText().toString();
+        lesson.school = this.school.getText().toString();
+        lesson.objective = this.objective.getText().toString();
+        lesson.description = this.description.getText().toString();
+        try(DBHelper db = new DBHelper(this)){
+            if(this.id < 0){
+                long  id = db.insertaLeccion(lesson);
+                if(id > -1) {
+                    setResult(RESULT_OK);
+                    Toast.makeText(this, "Lesson created", Toast.LENGTH_SHORT).show();
+                    finish();
+                }else{
+                    Toast.makeText(this,"Lesson not created",Toast.LENGTH_SHORT).show();
+                }
             }else{
-                Toast.makeText(this,"Leccion no creada",Toast.LENGTH_SHORT).show();
-            }
-        }else{
-            if(db.updateLeccion(leccion)){
-                setResult(RESULT_OK);
-                Toast.makeText(this, "Leccion actualizada", Toast.LENGTH_SHORT).show();
-                finish();
-            }else{
-                Toast.makeText(this,"Leccion no actualizada",Toast.LENGTH_SHORT).show();
+                if(db.updateLeccion(lesson)){
+                    setResult(RESULT_OK);
+                    Toast.makeText(this, "Lesson updated", Toast.LENGTH_SHORT).show();
+                    finish();
+                }else{
+                    Toast.makeText(this,"Lesson not updated",Toast.LENGTH_SHORT).show();
+                }
             }
         }
 
+
     }
 
-    public void secuencias(View v){
+    public void goToSequences(View v){
         if(id > -1) {
             Intent intent = new Intent(this, Secuencias.class);
             intent.putExtra("com.mylaneza.jamarte.ID", id);
             startActivity(intent);
         }else{
-            Toast.makeText(this,"Primero se debe crear la leccion",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Create lesson first",Toast.LENGTH_SHORT).show();
         }
     }
 
