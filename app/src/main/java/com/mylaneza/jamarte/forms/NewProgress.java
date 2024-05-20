@@ -1,6 +1,6 @@
 package com.mylaneza.jamarte.forms;
 
-import android.app.Activity;
+
 
 import android.os.Bundle;
 import android.view.View;
@@ -11,25 +11,25 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.mylaneza.jamarte.R;
 
-public class NewAvance extends AppCompatActivity {
+public class NewProgress extends AppCompatActivity {
 
-    EditText nivel;
-    EditText leccion;
+    EditText level;
+    EditText lesson;
     Spinner rol;
-    Spinner miembro;
+    Spinner member;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_avance);
-        nivel = (EditText)findViewById(R.id.txtNivel);
-        leccion = (EditText)findViewById(R.id.txtLeccion);
-        rol = (Spinner) findViewById(R.id.spRol);
-        miembro = (Spinner)findViewById(R.id.spMiembro);
+        level = findViewById(R.id.txtNivel);
+        lesson = findViewById(R.id.txtLeccion);
+        rol = findViewById(R.id.spRol);
+        member = findViewById(R.id.spMiembro);
     }
 
-    public void salvar(View v){
+    public void save(View v){
         finish();
     }
 }

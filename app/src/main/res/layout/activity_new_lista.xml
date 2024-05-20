@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/spMiembros"
         android:layout_centerHorizontal="true"
-        android:onClick="salvar"
+        android:onClick="save"
         android:text="@string/strSalvar"/>
 
 

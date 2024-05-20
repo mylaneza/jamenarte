@@ -45,7 +45,7 @@
             android:label="@string/strSecuencias"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".forms.NewAvance"
+            android:name=".forms.NewProgress"
             android:parentActivityName=".ProgressScreen" />
         <activity
             android:name=".forms.NewPaso"
