@@ -29,7 +29,7 @@
             android:label="@string/strAvances"
             android:parentActivityName=".Miembros" />
         <activity
-            android:name=".Pasos"
+            android:name=".Steps"
             android:label="@string/strPasos"
             android:parentActivityName=".MainActivity" />
         <activity
@@ -50,7 +50,7 @@
         <activity
             android:name=".forms.NewStep"
             android:label="@string/strPaso"
-            android:parentActivityName=".Pasos" />
+            android:parentActivityName=".Steps" />
         <activity
             android:name=".forms.NewAssistanceList"
             android:label="@string/strNuevoAsistente"

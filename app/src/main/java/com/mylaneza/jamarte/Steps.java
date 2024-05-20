@@ -21,21 +21,23 @@ import com.mylaneza.jamarte.entities.Step;
 
 import com.mylaneza.jamarte.forms.NewStep;
 
-public class Pasos extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class Steps extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     ListView list;
-    Step[] pasos;
+    Step[] steps;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pasos);
-        list = (ListView) findViewById(R.id.listPasos);
-        DBHelper db = new DBHelper(this);
-        pasos = db.getPasos();
-        list.setAdapter(new StepsAdapter(this,pasos));
-        list.setOnItemClickListener(this);
-        TextView totalPasos = findViewById(R.id.pasosTotal);
-        totalPasos.setText("Total: "+pasos.length);
+        list =  findViewById(R.id.listPasos);
+        try(DBHelper db = new DBHelper(this)){
+            steps = db.getPasos();
+            list.setAdapter(new StepsAdapter(this, steps));
+            list.setOnItemClickListener(this);
+            TextView totalSteps = findViewById(R.id.pasosTotal);
+            totalSteps.setText(getString(R.string.strTotal,steps.length));
+        }
+
     }
 
     @Override
@@ -66,7 +68,7 @@ public class Pasos extends AppCompatActivity implements AdapterView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Step p = pasos[i];
+        Step p = steps[i];
         Intent intent = new Intent(this, NewStep.class);
         intent.putExtra("com.mylaneza.jamarte.ID",p.id);
         startActivityForResult( intent,0);
@@ -78,21 +80,22 @@ public class Pasos extends AppCompatActivity implements AdapterView.OnItemClickL
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode,resultCode,data);
         if(resultCode == RESULT_OK){
-            DBHelper db = new DBHelper(this);
-            if(requestCode == 0){ 
-                pasos = db.getPasos();
-            }else{
-                String base = data.getStringExtra("com.mylaneza.jamarte.OPCION");
-                String column = data.getStringExtra("com.mylaneza.jamarte.COLUMN");
-                if(base != null && !"Todos".equals(base)){
-                    pasos = db.getPasosBy(DBContract.Steps.COL_BASE,base,true);
+            try(DBHelper db = new DBHelper(this)){
+                if(requestCode == 0){
+                    steps = db.getPasos();
+                }else{
+                    String base = data.getStringExtra("com.mylaneza.jamarte.OPCION");
+                    if(base != null && !"Todos".equals(base)){
+                        steps = db.getPasosBy(DBContract.Steps.COL_BASE,base,true);
+                    }
                 }
+                StepsAdapter ap = (StepsAdapter) list.getAdapter();
+                ap.steps = steps;
+                ap.notifyDataSetChanged();
+                TextView totalSteps = findViewById(R.id.pasosTotal);
+                totalSteps.setText(getString(R.string.strTotal,steps.length));
             }
-            StepsAdapter ap = (StepsAdapter) list.getAdapter();
-            ap.steps = pasos;
-            ap.notifyDataSetChanged();
-            TextView totalPasos = findViewById(R.id.pasosTotal);
-            totalPasos.setText("Total: "+pasos.length);
+
         }
     }
 }

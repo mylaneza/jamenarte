@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void pasos(View v){
-        Intent i = new Intent(this, Pasos.class);
+        Intent i = new Intent(this, Steps.class);
         startActivity(i);
     }
 
