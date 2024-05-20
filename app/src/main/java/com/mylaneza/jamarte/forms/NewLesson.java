@@ -19,7 +19,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mylaneza.jamarte.R;
-import com.mylaneza.jamarte.Secuencias;
+import com.mylaneza.jamarte.Sequences;
 import com.mylaneza.jamarte.adapters.StepsAdapter;
 import com.mylaneza.jamarte.database.DBHelper;
 import com.mylaneza.jamarte.entities.Lesson;
@@ -149,7 +149,7 @@ public class NewLesson extends AppCompatActivity implements AdapterView.OnItemLo
 
     public void goToSequences(View v){
         if(id > -1) {
-            Intent intent = new Intent(this, Secuencias.class);
+            Intent intent = new Intent(this, Sequences.class);
             intent.putExtra("com.mylaneza.jamarte.ID", id);
             startActivity(intent);
         }else{

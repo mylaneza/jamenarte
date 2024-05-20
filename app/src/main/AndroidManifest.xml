@@ -41,7 +41,7 @@
             android:parentActivityName=".MainActivity"
             />
         <activity
-            android:name=".Secuencias"
+            android:name=".Sequences"
             android:label="@string/strSecuencias"
             android:parentActivityName=".MainActivity" />
         <activity
@@ -67,7 +67,7 @@
         <activity
             android:name=".forms.NewSequence"
             android:label="@string/strSecuencia"
-            android:parentActivityName=".Secuencias" />
+            android:parentActivityName=".Sequences" />
         <activity
             android:name=".forms.NewLesson"
             android:label="@string/strLeccion"

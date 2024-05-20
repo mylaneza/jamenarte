@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mylaneza.jamarte.adapters.SequenceAdapter;
@@ -19,9 +20,9 @@ import com.mylaneza.jamarte.entities.Sequence;
 
 import com.mylaneza.jamarte.forms.NewSequence;
 
-public class Secuencias extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class Sequences extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    Sequence[] secuencias;
+    Sequence[] sequences;
     ListView list;
     long id;
     @Override
@@ -29,13 +30,15 @@ public class Secuencias extends AppCompatActivity implements AdapterView.OnItemC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secuencias);
         list = findViewById(R.id.listSecuencias);
-        DBHelper db = new DBHelper(this);
-        id = getIntent().getLongExtra("com.mylaneza.jamarte.ID",-1);
+        try(DBHelper db = new DBHelper(this)){
+            id = getIntent().getLongExtra("com.mylaneza.jamarte.ID",-1);
 
-        secuencias = db.getSecuencias(id);
+            sequences = db.getSecuencias(id);
 
-        list.setAdapter(new SequenceAdapter(this,secuencias));
-        list.setOnItemClickListener(this);
+            list.setAdapter(new SequenceAdapter(this, sequences));
+            list.setOnItemClickListener(this);
+        }
+
     }
 
     @Override
@@ -45,17 +48,11 @@ public class Secuencias extends AppCompatActivity implements AdapterView.OnItemC
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        /*if( item.getItemId() == R.id.item_new ){
-            Intent intent = new Intent(this, NewSecuencia.class);
-            intent.putExtra("com.mylaneza.jamarte.LECCION", id);
-            startActivityForResult(intent,0);
-            return true;
-        }else*/
-            return false;
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        return false;
     }
 
-    public void openNewSecuencia(View v){
+    public void openNewSequence(View v){
         Intent intent = new Intent(this, NewSequence.class);
         intent.putExtra("com.mylaneza.jamarte.LECCION", id);
         startActivityForResult(intent,0);
@@ -65,8 +62,7 @@ public class Secuencias extends AppCompatActivity implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent intent = new Intent(this, NewSequence.class);
-        intent.putExtra("com.mylaneza.jamarte.ID", secuencias[i].id);
+        intent.putExtra("com.mylaneza.jamarte.ID", sequences[i].id);
         startActivityForResult(intent,0);
-        //return true;
     }
 }
