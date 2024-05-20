@@ -10,19 +10,19 @@ import com.mylaneza.jamarte.entities.MemberSession;
 /**
  * Created by mylaneza on 12/08/2018.
  */
-public class AdaptadorLista extends BaseAdapter{
+public class AssistanceListAdapter extends BaseAdapter{
 
-    MemberSession listas[];
+    MemberSession[] list;
     Context ctx;
 
-    public AdaptadorLista(Context ctx, MemberSession listas[]){
+    public AssistanceListAdapter(Context ctx, MemberSession[] list){
         this.ctx = ctx;
-        this.listas = listas;
+        this.list = list;
     }
 
     @Override
     public int getCount() {
-        return listas.length;
+        return list.length;
     }
 
     @Override
