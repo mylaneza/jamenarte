@@ -3,21 +3,21 @@ package com.mylaneza.jamarte.entities;
 /**
  * Created by mylaneza on 09/10/2018.
  */
-public class SecuenciaPaso {
+public class StepInSequence {
     public long id;
-    public long secuencia;
-    public long paso;
-    public int orden;
-    public int repeticion;
-    public String detalle;
+    public long sequenceId;
+    public long stepId;
+    public int seqNo;
+    public int repetitions;
+    public String detail;
 
     Step p;
 
-    public String getNombre(){
+    public String getName(){
         return p.name;
     }
 
-    public int getCuenta(){
+    public int getCount(){
         return p.count;
     }
 

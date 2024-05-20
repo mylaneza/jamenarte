@@ -14,7 +14,7 @@ import com.mylaneza.jamarte.entities.Lesson;
 import com.mylaneza.jamarte.entities.Member;
 import com.mylaneza.jamarte.entities.Step;
 import com.mylaneza.jamarte.entities.Sequence;
-import com.mylaneza.jamarte.entities.SecuenciaPaso;
+import com.mylaneza.jamarte.entities.StepInSequence;
 import com.mylaneza.jamarte.entities.Session;
 import com.mylaneza.jamarte.entities.MemberSession;
 
@@ -982,27 +982,27 @@ public class DBHelper extends SQLiteOpenHelper {
         return secuencias;
     }
 
-    public long insertaSecuenciaPaso(SecuenciaPaso paso){
+    public long insertaSecuenciaPaso(StepInSequence paso){
         SQLiteDatabase db = getReadableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DBContract.SequenceStep.COL_PASO, paso.paso );
-        values.put(DBContract.SequenceStep.COL_SECUENCIA, paso.secuencia);
-        values.put(DBContract.SequenceStep.COL_DETALLES, paso.detalle);
-        values.put(DBContract.SequenceStep.COL_ORDEN, paso.orden);
-        values.put(DBContract.SequenceStep.COL_REPETICION,paso.repeticion);
+        values.put(DBContract.SequenceStep.COL_PASO, paso.stepId);
+        values.put(DBContract.SequenceStep.COL_SECUENCIA, paso.sequenceId);
+        values.put(DBContract.SequenceStep.COL_DETALLES, paso.detail);
+        values.put(DBContract.SequenceStep.COL_ORDEN, paso.seqNo);
+        values.put(DBContract.SequenceStep.COL_REPETICION,paso.repetitions);
         long id = db.insert( DBContract.SequenceStep.TABLE, null, values);
 
         return id;
     }
 
-    public boolean updateSecuenciaPaso(SecuenciaPaso paso) {
+    public boolean updateSecuenciaPaso(StepInSequence paso) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DBContract.SequenceStep.COL_PASO, paso.paso );
-        values.put(DBContract.SequenceStep.COL_SECUENCIA, paso.secuencia);
-        values.put(DBContract.SequenceStep.COL_DETALLES, paso.detalle);
-        values.put(DBContract.SequenceStep.COL_ORDEN, paso.orden);
-        values.put(DBContract.SequenceStep.COL_REPETICION,paso.repeticion);
+        values.put(DBContract.SequenceStep.COL_PASO, paso.stepId);
+        values.put(DBContract.SequenceStep.COL_SECUENCIA, paso.sequenceId);
+        values.put(DBContract.SequenceStep.COL_DETALLES, paso.detail);
+        values.put(DBContract.SequenceStep.COL_ORDEN, paso.seqNo);
+        values.put(DBContract.SequenceStep.COL_REPETICION,paso.repetitions);
         int rows = db.update(DBContract.SequenceStep.TABLE , values, DBContract.SequenceStep._ID + "=" + paso.id , null);
         close();
 
@@ -1010,7 +1010,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return rows == 1;
     }
 
-    public SecuenciaPaso getPasoDeSecuencia(long id) {
+    public StepInSequence getPasoDeSecuencia(long id) {
         SQLiteDatabase db = getReadableDatabase();
 
         // Define a projection that specifies which columns from the database
@@ -1038,15 +1038,15 @@ public class DBHelper extends SQLiteOpenHelper {
         );
 
 
-        SecuenciaPaso s = new SecuenciaPaso();
+        StepInSequence s = new StepInSequence();
         if(c.moveToNext()){
             s.id = id;
-            s.secuencia = c.getLong(0);
-            s.orden = c.getInt(1);
-            s.paso = c.getLong(2);
-            s.detalle = c.getString(3);
-            s.repeticion = c.getInt(4);
-            s.setStep(getPaso(s.paso));
+            s.sequenceId = c.getLong(0);
+            s.seqNo = c.getInt(1);
+            s.stepId = c.getLong(2);
+            s.detail = c.getString(3);
+            s.repetitions = c.getInt(4);
+            s.setStep(getPaso(s.stepId));
         }else
             s = null;
 
@@ -1065,7 +1065,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return s;
     }
 
-    public SecuenciaPaso[] getPasosDeSecuencia(long secuencia) {
+    public StepInSequence[] getPasosDeSecuencia(long secuencia) {
         SQLiteDatabase db = getReadableDatabase();
 
         // Define a projection that specifies which columns from the database
@@ -1093,16 +1093,16 @@ public class DBHelper extends SQLiteOpenHelper {
         );
         int length = c.getCount();
 
-        SecuenciaPaso secuencias[] = new SecuenciaPaso[length];
+        StepInSequence secuencias[] = new StepInSequence[length];
         for( int i = 0 ; i < length ; i++ ){
             c.moveToNext();
-            SecuenciaPaso s = new SecuenciaPaso();
+            StepInSequence s = new StepInSequence();
 
             s.id = c.getLong(0);
-            s.orden = c.getInt(1);
-            s.paso = c.getLong(2);
-            s.detalle = c.getString(3);
-            s.repeticion = c.getInt(4);
+            s.seqNo = c.getInt(1);
+            s.stepId = c.getLong(2);
+            s.detail = c.getString(3);
+            s.repetitions = c.getInt(4);
 
 
 
@@ -1111,7 +1111,7 @@ public class DBHelper extends SQLiteOpenHelper {
         c.close();
 
         for( int i = 0 ; i < length ; i++ ){
-            secuencias[i].setStep(getPaso(secuencias[i].paso));
+            secuencias[i].setStep(getPaso(secuencias[i].stepId));
         }
         close();
         return secuencias;

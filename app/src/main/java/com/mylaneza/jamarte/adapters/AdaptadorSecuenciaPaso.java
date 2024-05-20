@@ -9,17 +9,17 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.mylaneza.jamarte.R;
-import com.mylaneza.jamarte.entities.SecuenciaPaso;
+import com.mylaneza.jamarte.entities.StepInSequence;
 
 /**
  * Created by mylaneza on 28/10/2018.
  */
 public class AdaptadorSecuenciaPaso extends BaseAdapter {
 
-    public SecuenciaPaso pasos[];
+    public StepInSequence pasos[];
     Activity ctx;
 
-    public AdaptadorSecuenciaPaso(Activity ctx, SecuenciaPaso[] pasos){
+    public AdaptadorSecuenciaPaso(Activity ctx, StepInSequence[] pasos){
         this.ctx = ctx;
         this.pasos = pasos;
     }
@@ -53,13 +53,13 @@ public class AdaptadorSecuenciaPaso extends BaseAdapter {
         TextView orden = row.findViewById(R.id.spOrden);
         TextView detalle = row.findViewById(R.id.spDetalle);
         TextView tiempos = row.findViewById(R.id.spTiempos);
-        SecuenciaPaso p = pasos[i];
+        StepInSequence p = pasos[i];
         //Log.i("Paso",p.toString());
-        nombre.setText(p.getNombre());
-        repeticion.setText(""+p.repeticion);
-        orden.setText(""+p.orden);
-        detalle.setText(p.detalle);
-        tiempos.setText(""+(p.repeticion*p.getCuenta()));
+        nombre.setText(p.getName());
+        repeticion.setText(""+p.repetitions);
+        orden.setText(""+p.seqNo);
+        detalle.setText(p.detail);
+        tiempos.setText(""+(p.repetitions *p.getCount()));
         return row;
     }
 }

@@ -1,6 +1,5 @@
 package com.mylaneza.jamarte;
 
-import android.app.Activity;
 import android.content.Intent;
 
 import android.os.Bundle;
@@ -14,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.mylaneza.jamarte.adapters.AdaptadorSecuenciaPaso;
 import com.mylaneza.jamarte.database.DBHelper;
-import com.mylaneza.jamarte.entities.SecuenciaPaso;
+import com.mylaneza.jamarte.entities.StepInSequence;
 import com.mylaneza.jamarte.forms.NewSecuenciaPaso;
 
 
@@ -25,7 +24,7 @@ public class SecuenciaPasos extends AppCompatActivity implements AdapterView.OnI
     ListView sp;
     long id;
 
-    SecuenciaPaso pasos[];
+    StepInSequence pasos[];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

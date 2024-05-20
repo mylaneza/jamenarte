@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.mylaneza.jamarte.R;
 import com.mylaneza.jamarte.database.DBHelper;
 import com.mylaneza.jamarte.entities.Step;
-import com.mylaneza.jamarte.entities.SecuenciaPaso;
+import com.mylaneza.jamarte.entities.StepInSequence;
 
 public class NewSecuenciaPaso extends AppCompatActivity {
 
@@ -26,7 +26,7 @@ public class NewSecuenciaPaso extends AppCompatActivity {
     String[] nombresPasos;
 
     long id;
-    SecuenciaPaso secuenciaPaso;
+    StepInSequence secuenciaPaso;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,18 +47,18 @@ public class NewSecuenciaPaso extends AppCompatActivity {
             secuenciaPaso = db.getPasoDeSecuencia(id);
             sp.setSelection(getStepPosition());
 
-            orden.setText(""+secuenciaPaso.orden);
-            detalle.setText(""+secuenciaPaso.detalle);
-            repeticion.setText(""+secuenciaPaso.repeticion);
+            orden.setText(""+secuenciaPaso.seqNo);
+            detalle.setText(""+secuenciaPaso.detail);
+            repeticion.setText(""+secuenciaPaso.repetitions);
         }else{
-            secuenciaPaso = new SecuenciaPaso();
-            secuenciaPaso.secuencia = getIntent().getLongExtra("com.mylaneza.jamarte.SECUENCIA",-1);
+            secuenciaPaso = new StepInSequence();
+            secuenciaPaso.sequenceId = getIntent().getLongExtra("com.mylaneza.jamarte.SECUENCIA",-1);
         }
     }
 
     private int getStepPosition() {
         for(int i = 0 ; i < nombresPasos.length ; i++){
-            if(nombresPasos[i].equals(secuenciaPaso.getNombre())){
+            if(nombresPasos[i].equals(secuenciaPaso.getName())){
                 return i;
             }
         }
@@ -90,10 +90,10 @@ public class NewSecuenciaPaso extends AppCompatActivity {
         String detalle = this.detalle.getText().toString();
         DBHelper db = new DBHelper(this);
 
-        secuenciaPaso.repeticion = repeticion;
-        secuenciaPaso.orden = orden;
-        secuenciaPaso.detalle = detalle;
-        secuenciaPaso.paso = pasos[sp.getSelectedItemPosition()].id;
+        secuenciaPaso.repetitions = repeticion;
+        secuenciaPaso.seqNo = orden;
+        secuenciaPaso.detail = detalle;
+        secuenciaPaso.stepId = pasos[sp.getSelectedItemPosition()].id;
 
         if(id  > -1){
             secuenciaPaso.id = id;
