@@ -14,19 +14,19 @@ import com.mylaneza.jamarte.entities.StepInSequence;
 /**
  * Created by mylaneza on 28/10/2018.
  */
-public class AdaptadorSecuenciaPaso extends BaseAdapter {
+public class StepInSequenceAdapter extends BaseAdapter {
 
-    public StepInSequence pasos[];
+    public StepInSequence[] steps;
     Activity ctx;
 
-    public AdaptadorSecuenciaPaso(Activity ctx, StepInSequence[] pasos){
+    public StepInSequenceAdapter(Activity ctx, StepInSequence[] steps){
         this.ctx = ctx;
-        this.pasos = pasos;
+        this.steps = steps;
     }
 
     @Override
     public int getCount() {
-        return pasos.length;
+        return steps.length;
     }
 
     @Override
@@ -48,18 +48,18 @@ public class AdaptadorSecuenciaPaso extends BaseAdapter {
         }else{
             row = view;
         }
-        TextView nombre = row.findViewById(R.id.spNombre);
-        TextView repeticion = row.findViewById(R.id.spRepeticion);
-        TextView orden = row.findViewById(R.id.spOrden);
-        TextView detalle = row.findViewById(R.id.spDetalle);
-        TextView tiempos = row.findViewById(R.id.spTiempos);
-        StepInSequence p = pasos[i];
+        TextView name = row.findViewById(R.id.spNombre);
+        TextView repetitions = row.findViewById(R.id.spRepeticion);
+        TextView seqNo = row.findViewById(R.id.spOrden);
+        TextView detail = row.findViewById(R.id.spDetalle);
+        TextView times = row.findViewById(R.id.spTiempos);
+        StepInSequence p = steps[i];
         //Log.i("Paso",p.toString());
-        nombre.setText(p.getName());
-        repeticion.setText(""+p.repetitions);
-        orden.setText(""+p.seqNo);
-        detalle.setText(p.detail);
-        tiempos.setText(""+(p.repetitions *p.getCount()));
+        name.setText(p.getName());
+        repetitions.setText(ctx.getString(R.string.strInteger,p.repetitions));
+        seqNo.setText(ctx.getString(R.string.strInteger,p.seqNo));
+        detail.setText(p.detail);
+        times.setText(ctx.getString(R.string.strInteger,(p.repetitions *p.getCount())));
         return row;
     }
 }

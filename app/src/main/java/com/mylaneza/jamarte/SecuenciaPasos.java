@@ -11,7 +11,7 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.mylaneza.jamarte.adapters.AdaptadorSecuenciaPaso;
+import com.mylaneza.jamarte.adapters.StepInSequenceAdapter;
 import com.mylaneza.jamarte.database.DBHelper;
 import com.mylaneza.jamarte.entities.StepInSequence;
 import com.mylaneza.jamarte.forms.NewSecuenciaPaso;
@@ -34,7 +34,7 @@ public class SecuenciaPasos extends AppCompatActivity implements AdapterView.OnI
 
         DBHelper db = new DBHelper(this);
         pasos = db.getPasosDeSecuencia(id);
-        sp.setAdapter(new AdaptadorSecuenciaPaso(this,pasos));
+        sp.setAdapter(new StepInSequenceAdapter(this,pasos));
         sp.setOnItemClickListener(this);
 
     }
