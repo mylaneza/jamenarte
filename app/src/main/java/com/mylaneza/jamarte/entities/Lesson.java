@@ -14,5 +14,5 @@ public class Lesson {
     public String objective;
     public String description;
 
-    public Vector<Step> steps = new Vector<Step>();
+    public Vector<Step> steps = new Vector<>();
 }
