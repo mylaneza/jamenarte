@@ -2,7 +2,7 @@ package com.mylaneza.jamarte.database;
 
 import android.provider.BaseColumns;
 
-import java.nio.file.attribute.BasicFileAttributes;
+
 
 /**
  * Created by mylaneza on 07/07/2018.
