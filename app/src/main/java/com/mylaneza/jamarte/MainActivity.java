@@ -20,42 +20,43 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void miembros(View v){
+    public void members(View v){
         Intent i = new Intent(this, Miembros.class);
         startActivity(i);
     }
 
-    public void pasos(View v){
+    public void steps(View v){
         Intent i = new Intent(this, Steps.class);
         startActivity(i);
     }
 
-    public void sesiones(View v){
+    public void sessions(View v){
         Intent i = new Intent(this, Sesiones.class);
         startActivity(i);
     }
 
-    public void avances(View v){
-        //Haber
-        //Log.i("Avances","AVANCES");
+    public void progress(View v){
         Intent i = new Intent(this, ListaAvances.class);
         startActivity(i);
 
     }
     
-    public void lecciones(View v){
+    public void lessons(View v){
         Intent i = new Intent(this, Lessons.class);
         startActivity(i);
     }
 
-    public void exportar(View v){
-        DBHelper helper = new DBHelper(this);
-        helper.exportar();
+    public void export(View v){
+        try(DBHelper helper = new DBHelper(this)){
+            helper.exportar();
+        }
+
     }
 
-    public void actualizar(View v){
-        DBHelper helper = new DBHelper(this);
-        helper.alterTable();
+    public void update(View v){
+        try(DBHelper helper = new DBHelper(this)){
+            helper.alterTable();
+        }
     }
 
 }

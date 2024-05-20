@@ -14,25 +14,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/strMiembros"
-        android:onClick="miembros" />
+        android:onClick="members" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/strAvances"
-        android:onClick="avances"/>
+        android:onClick="progress"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/strPasos"
-        android:onClick="pasos"/>
+        android:onClick="steps"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/strSesiones"
-        android:onClick="sesiones"/>
+        android:onClick="sessions"/>
 
 
 
@@ -40,18 +40,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/strLecciones"
-        android:onClick="lecciones"/>
+        android:onClick="lessons"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/strExportarBase"
-        android:onClick="exportar"/>
+        android:onClick="export"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/strActualizarBase"
-        android:onClick="actualizar"
+        android:onClick="update"
         android:visibility="gone"/>
 </LinearLayout>
