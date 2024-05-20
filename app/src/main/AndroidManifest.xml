@@ -57,7 +57,7 @@
             android:parentActivityName=".SesionesEstudiantes"
             android:theme="@style/Theme.AppCompat.Dialog" />
         <activity
-            android:name=".forms.NewSesion"
+            android:name=".forms.NewSession"
             android:label="@string/strSesion"
             android:parentActivityName=".Sesiones" />
         <activity

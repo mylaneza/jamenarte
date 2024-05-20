@@ -22,7 +22,7 @@ import com.mylaneza.jamarte.adapters.SessionsAdapter;
 import com.mylaneza.jamarte.database.DBHelper;
 import com.mylaneza.jamarte.entities.Session;
 
-import com.mylaneza.jamarte.forms.NewSesion;
+import com.mylaneza.jamarte.forms.NewSession;
 
 public class Sesiones extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -85,13 +85,13 @@ public class Sesiones extends AppCompatActivity implements AdapterView.OnItemCli
     }
 
     public void openNewSesion(View v){
-        startActivityForResult(new Intent(this, NewSesion.class),0);
+        startActivityForResult(new Intent(this, NewSession.class),0);
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Session p = sesiones[i];
-        Intent intent = new Intent(this, NewSesion.class);
+        Intent intent = new Intent(this, NewSession.class);
         intent.putExtra("com.mylaneza.jamarte.ID",p.id);
         startActivityForResult( intent, 0 );
     }
