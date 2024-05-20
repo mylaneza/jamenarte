@@ -1,5 +1,7 @@
 package com.mylaneza.jamarte.entities;
 
+import androidx.annotation.NonNull;
+
 /**
  * Created by mylaneza on 07/07/2018.
  */
@@ -11,9 +13,9 @@ public class Member {
     public String lastNameMother;
     public String birthday;
     public int gender;
-    public int rol;
     public int progressByGender;
 
+    @NonNull
     public String toString(){
         return name +","+nickname+","+ lastNameParent +","+ lastNameMother +","+ birthday;
     }
