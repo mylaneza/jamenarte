@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin" >
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minLines="5"
+        android:lines="10"
+        android:maxLines="10"
+        android:scrollbars="vertical"
+        android:hint="@string/strDescripcion"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/etDescripcion"
+        android:gravity="top|left"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/etDescripcion"
+        android:orientation="horizontal"
+        android:id="@+id/newLessonView"
+        tools:context="com.mylaneza.jamarte.formas.NewLesson">
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/etLeccionNivel"
+                    android:hint="@string/strNivel"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/etLeccionNombre"
+                    android:hint="@string/strNombre"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/etLeccionEscuela"
+                    android:hint="@string/strEscuela"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/etLeccionObjetivo"
+                    android:hint="@string/strObjetivo"/>
+
+
+
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/spPasos" />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="agregaPaso"
+                    android:text="@string/strAgregaPaso"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="secuencias"
+                    android:text="@string/strSecuencias" />
+
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/strSalvar"
+                    android:onClick="salvar"/>
+
+            </LinearLayout>
+        </ScrollView>
+
+
+
+        <ListView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:id="@+id/lvLeccionPasos" />
+
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>
+
