@@ -19,7 +19,7 @@ import com.mylaneza.jamarte.adapters.MembersAdapter;
 import com.mylaneza.jamarte.database.DBHelper;
 import com.mylaneza.jamarte.entities.Member;
 
-import com.mylaneza.jamarte.forms.NewMiembro;
+import com.mylaneza.jamarte.forms.NewMember;
 
 public class Miembros extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -58,13 +58,13 @@ public class Miembros extends AppCompatActivity implements AdapterView.OnItemCli
     }
 
     public void openNewMiembro(View v){
-        startActivityForResult(new Intent(this, NewMiembro.class),0);
+        startActivityForResult(new Intent(this, NewMember.class),0);
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Member m = miembros[i];
-        Intent intent = new Intent(this, NewMiembro.class);
+        Intent intent = new Intent(this, NewMember.class);
         intent.putExtra("com.mylaneza.jamarte.ID",m.id);
         startActivityForResult( intent, 0);
     }

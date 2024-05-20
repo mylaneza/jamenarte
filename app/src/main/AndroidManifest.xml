@@ -61,7 +61,7 @@
             android:label="@string/strSesion"
             android:parentActivityName=".Sesiones" />
         <activity
-            android:name=".forms.NewMiembro"
+            android:name=".forms.NewMember"
             android:label="@string/strMiembro"
             android:parentActivityName=".Miembros" />
         <activity
