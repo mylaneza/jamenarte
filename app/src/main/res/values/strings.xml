@@ -56,4 +56,5 @@
     <string name="strJamArte">Jam en Arte</string>
     <string name="strLessonRow">%1$s-%2$s</string>
     <string name="strLong">%1$f</string>
+    <string name="strInteger">%1$d</string>
 </resources>

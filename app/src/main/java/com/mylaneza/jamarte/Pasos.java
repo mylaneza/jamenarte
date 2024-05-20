@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.mylaneza.jamarte.adapters.AdaptadorPasos;
+import com.mylaneza.jamarte.adapters.StepsAdapter;
 
 import com.mylaneza.jamarte.database.DBContract;
 import com.mylaneza.jamarte.database.DBHelper;
@@ -32,7 +32,7 @@ public class Pasos extends AppCompatActivity implements AdapterView.OnItemClickL
         list = (ListView) findViewById(R.id.listPasos);
         DBHelper db = new DBHelper(this);
         pasos = db.getPasos();
-        list.setAdapter(new AdaptadorPasos(this,pasos));
+        list.setAdapter(new StepsAdapter(this,pasos));
         list.setOnItemClickListener(this);
         TextView totalPasos = findViewById(R.id.pasosTotal);
         totalPasos.setText("Total: "+pasos.length);
@@ -88,8 +88,8 @@ public class Pasos extends AppCompatActivity implements AdapterView.OnItemClickL
                     pasos = db.getPasosBy(DBContract.Steps.COL_BASE,base,true);
                 }
             }
-            AdaptadorPasos ap = (AdaptadorPasos) list.getAdapter();
-            ap.pasos = pasos;
+            StepsAdapter ap = (StepsAdapter) list.getAdapter();
+            ap.steps = pasos;
             ap.notifyDataSetChanged();
             TextView totalPasos = findViewById(R.id.pasosTotal);
             totalPasos.setText("Total: "+pasos.length);

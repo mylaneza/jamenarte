@@ -20,7 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.mylaneza.jamarte.R;
 import com.mylaneza.jamarte.Secuencias;
-import com.mylaneza.jamarte.adapters.AdaptadorPasos;
+import com.mylaneza.jamarte.adapters.StepsAdapter;
 import com.mylaneza.jamarte.database.DBHelper;
 import com.mylaneza.jamarte.entities.Lesson;
 import com.mylaneza.jamarte.entities.Step;
@@ -77,12 +77,12 @@ public class NewLesson extends AppCompatActivity implements AdapterView.OnItemLo
                 descripcion.setText(leccion.description);
                 Step[] pasos1 = new Step[0];
                 pasos1 = leccion.steps.toArray(pasos1);
-                listaPasos.setAdapter(new AdaptadorPasos(this,pasos1));
+                listaPasos.setAdapter(new StepsAdapter(this,pasos1));
             }
         }else{
             Step[] pasos1 = new Step[0];
 
-            listaPasos.setAdapter(new AdaptadorPasos(this,pasos1));
+            listaPasos.setAdapter(new StepsAdapter(this,pasos1));
             leccion = new Lesson();
         }
     }
@@ -97,10 +97,10 @@ public class NewLesson extends AppCompatActivity implements AdapterView.OnItemLo
 
     public void agregaPaso(View v){
         leccion.steps.add(pasos[spPasos.getSelectedItemPosition()]);
-        AdaptadorPasos ap = (AdaptadorPasos) listaPasos.getAdapter();
+        StepsAdapter ap = (StepsAdapter) listaPasos.getAdapter();
         Step[] pasos1 = new Step[0];
         pasos1 = leccion.steps.toArray(pasos1);
-        ap.pasos =  pasos1;
+        ap.steps =  pasos1;
         //Log.i("PASOS",""+pasos1.length);
         ap.notifyDataSetChanged();
         findViewById(R.id.newLessonView).invalidate();
@@ -110,10 +110,10 @@ public class NewLesson extends AppCompatActivity implements AdapterView.OnItemLo
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l){
         //Borrar paso
         leccion.steps.remove(i);
-        AdaptadorPasos ap = (AdaptadorPasos) listaPasos.getAdapter();
+        StepsAdapter ap = (StepsAdapter) listaPasos.getAdapter();
         Step[] pasos1 = new Step[0];
         pasos1 = leccion.steps.toArray(pasos1);
-        ap.pasos =  pasos1;
+        ap.steps =  pasos1;
         ap.notifyDataSetChanged();
         return true;
     }

@@ -14,19 +14,19 @@ import com.mylaneza.jamarte.R;
 /**
  * Created by mylaneza on 12/08/2018.
  */
-public class AdaptadorPasos extends BaseAdapter{
+public class StepsAdapter extends BaseAdapter{
 
-    public Step pasos[];
+    public Step[] steps;
     Activity ctx;
 
-    public AdaptadorPasos(Activity ctx, Step pasos[]){
+    public StepsAdapter(Activity ctx, Step[] steps){
         this.ctx = ctx;
-        this.pasos = pasos;
+        this.steps = steps;
     }
 
     @Override
     public int getCount() {
-        return pasos.length;
+        return steps.length;
     }
 
     @Override
@@ -48,25 +48,19 @@ public class AdaptadorPasos extends BaseAdapter{
         }else{
             row = view;
         }
-        TextView nombre = row.findViewById(R.id.rowPasoNombre);
-
-        TextView cuenta = row.findViewById(R.id.rowPasoCuenta);
+        TextView name = row.findViewById(R.id.rowPasoNombre);
+        TextView count = row.findViewById(R.id.rowPasoCuenta);
         TextView base = row.findViewById(R.id.rowPasoBase);
-
-        TextView lider = row.findViewById(R.id.rowPasoLider);
+        TextView leader = row.findViewById(R.id.rowPasoLider);
         TextView follower = row.findViewById(R.id.rowPasoFollower);
         TextView id = row.findViewById(R.id.rowPasoId);
-        Step p = pasos[i];
-        //Log.i("Paso",p.toString());
-        nombre.setText(p.name);
-
-
-        cuenta.setText(""+p.count);
+        Step p = steps[i];
+        name.setText(p.name);
+        count.setText(ctx.getString(R.string.strInteger,p.count));
         base.setText(p.base);
-
-        lider.setText(p.descriptionLeader);
+        leader.setText(p.descriptionLeader);
         follower.setText(p.descriptionFollower);
-        id.setText(""+p.id);
+        id.setText(ctx.getString(R.string.strInteger,p.id));
         return row;
     }
 }
