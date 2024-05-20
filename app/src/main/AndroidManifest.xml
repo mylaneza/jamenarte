@@ -48,7 +48,7 @@
             android:name=".forms.NewProgress"
             android:parentActivityName=".ProgressScreen" />
         <activity
-            android:name=".forms.NewPaso"
+            android:name=".forms.NewStep"
             android:label="@string/strPaso"
             android:parentActivityName=".Pasos" />
         <activity

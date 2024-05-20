@@ -19,7 +19,7 @@ import com.mylaneza.jamarte.database.DBContract;
 import com.mylaneza.jamarte.database.DBHelper;
 import com.mylaneza.jamarte.entities.Step;
 
-import com.mylaneza.jamarte.forms.NewPaso;
+import com.mylaneza.jamarte.forms.NewStep;
 
 public class Pasos extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -61,13 +61,13 @@ public class Pasos extends AppCompatActivity implements AdapterView.OnItemClickL
     }
 
     public void openNewPaso(View v){
-        startActivityForResult(new Intent(this, NewPaso.class),0);
+        startActivityForResult(new Intent(this, NewStep.class),0);
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Step p = pasos[i];
-        Intent intent = new Intent(this, NewPaso.class);
+        Intent intent = new Intent(this, NewStep.class);
         intent.putExtra("com.mylaneza.jamarte.ID",p.id);
         startActivityForResult( intent,0);
     }
