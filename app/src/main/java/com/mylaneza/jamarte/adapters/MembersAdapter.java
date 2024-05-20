@@ -18,18 +18,19 @@ import com.mylaneza.jamarte.R;
 /**
  * Created by mylaneza on 12/08/2018.
  */
-public class AdaptadorMiembros extends BaseAdapter{
+public class MembersAdapter extends BaseAdapter{
 
-    public Member[] miembros;
+    private static final int MALE = 0;
+    public Member[] members;
     Activity ctx;
-    public AdaptadorMiembros(Activity ctx, Member[] miembros){
+    public MembersAdapter(Activity ctx, Member[] members){
         this.ctx = ctx;
-        this.miembros = miembros;
+        this.members = members;
     }
 
     @Override
     public int getCount() {
-        return miembros.length;
+        return members.length;
     }
 
     @Override
@@ -51,19 +52,18 @@ public class AdaptadorMiembros extends BaseAdapter{
             row = view;
         }
         TextView nick = row.findViewById(R.id.txtNick);
-        TextView nombre = row.findViewById(R.id.txtNombre);
-        TextView apellidop = row.findViewById(R.id.txtApellidoP);
-        TextView apellidom = row.findViewById(R.id.txtApellidoM);
-        TextView cumple = row.findViewById(R.id.txtCumple);
+        TextView name = row.findViewById(R.id.txtNombre);
+        TextView lastNameParent = row.findViewById(R.id.txtApellidoP);
+        TextView lastNameMother = row.findViewById(R.id.txtApellidoM);
+        TextView birthday = row.findViewById(R.id.txtCumple);
         TextView id = row.findViewById(R.id.txtId);
 
-        Member m = miembros[i];
-        //Log.i("Miembro",m.toString());
+        Member m = members[i];
         nick.setText(m.nickname);
-        nombre.setText(m.name);
-        apellidop.setText(m.lastNameParent);
-        apellidom.setText(m.lastNameMother);
-        cumple.setText(m.birthday);
+        name.setText(m.name);
+        lastNameParent.setText(m.lastNameParent);
+        lastNameMother.setText(m.lastNameMother);
+        birthday.setText(m.birthday);
         id.setText(""+m.id);
         return row;
     }
@@ -76,16 +76,15 @@ public class AdaptadorMiembros extends BaseAdapter{
         }else{
             cell = view;
         }
-        TextView miembro = cell.findViewById(R.id.miembroAsistente);
-        ImageView imagen = cell.findViewById(R.id.imgDancer);
+        TextView member = cell.findViewById(R.id.miembroAsistente);
+        ImageView image = cell.findViewById(R.id.imgDancer);
 
-        Member m = miembros[i];
-        //Log.i("Miembro",m.toString());
-        miembro.setText(m.nickname);
-        if(m.gender == 0){
-            imagen.setImageResource(R.drawable.dancer);
+        Member m = members[i];
+        member.setText(m.nickname);
+        if(m.gender == MALE){
+            image.setImageResource(R.drawable.dancer);
         }else{
-            imagen.setImageResource(R.drawable.dancerf);
+            image.setImageResource(R.drawable.dancerf);
         }
         return cell;
     }

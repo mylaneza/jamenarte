@@ -11,7 +11,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import com.mylaneza.jamarte.adapters.AdaptadorMiembros;
+import com.mylaneza.jamarte.adapters.MembersAdapter;
 import com.mylaneza.jamarte.database.DBHelper;
 import com.mylaneza.jamarte.entities.Member;
 import com.mylaneza.jamarte.entities.Session;
@@ -54,7 +54,7 @@ public class SesionesEstudiantes extends AppCompatActivity implements AdapterVie
         totalTextView.setText("Total:"+lista.length);
         quickSort(lista, 0 , lista.length-1);
         //asignaParejas();
-        list.setAdapter(new AdaptadorMiembros(this,lista));
+        list.setAdapter(new MembersAdapter(this,lista));
         list.setOnItemClickListener(this);
 
     }
@@ -211,8 +211,8 @@ public class SesionesEstudiantes extends AppCompatActivity implements AdapterVie
             totalTextView.setText("Total:"+lista.length);
             
             quickSort(lista, 0 , lista.length-1);
-            AdaptadorMiembros ap = (AdaptadorMiembros) list.getAdapter();
-            ap.miembros = lista;
+            MembersAdapter ap = (MembersAdapter) list.getAdapter();
+            ap.members = lista;
             ap.notifyDataSetChanged();
         }
     }

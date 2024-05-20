@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.mylaneza.jamarte.adapters.AdaptadorMiembros;
+import com.mylaneza.jamarte.adapters.MembersAdapter;
 import com.mylaneza.jamarte.database.DBHelper;
 import com.mylaneza.jamarte.entities.Member;
 
@@ -35,7 +35,7 @@ public class Miembros extends AppCompatActivity implements AdapterView.OnItemCli
         list = findViewById(R.id.listMiembros);
         DBHelper db = new DBHelper(this);
         miembros = db.getMiembros();
-        list.setAdapter( new AdaptadorMiembros(this,miembros));
+        list.setAdapter( new MembersAdapter(this,miembros));
         list.setOnItemClickListener(this);
         TextView v = findViewById(R.id.miembrosTotal);
         v.setText("Total: "+miembros.length);
@@ -82,8 +82,8 @@ public class Miembros extends AppCompatActivity implements AdapterView.OnItemCli
         if(resultCode == RESULT_OK) {
             DBHelper db = new DBHelper(this);
             miembros = db.getMiembros();
-            AdaptadorMiembros ap = (AdaptadorMiembros) list.getAdapter();
-            ap.miembros = miembros;
+            MembersAdapter ap = (MembersAdapter) list.getAdapter();
+            ap.members = miembros;
             ap.notifyDataSetChanged();
             TextView v = findViewById(R.id.miembrosTotal);
             v.setText("Total: "+miembros.length);
