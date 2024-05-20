@@ -1,7 +1,6 @@
 package com.mylaneza.jamarte;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
@@ -13,16 +12,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mylaneza.jamarte.adapters.AdaptadorLecciones;
 
 import com.mylaneza.jamarte.database.DBHelper;
-import com.mylaneza.jamarte.entities.Leccion;
+import com.mylaneza.jamarte.entities.Lesson;
 
 import com.mylaneza.jamarte.forms.NewLesson;
 
@@ -32,7 +27,7 @@ public class Lecciones extends AppCompatActivity implements AdapterView.OnItemCl
 
 
     ListView list;
-    Leccion[] lecciones;
+    Lesson[] lecciones;
     //ActivityResultLauncher<Intent> arl;
 
     String query;
@@ -101,7 +96,7 @@ public class Lecciones extends AppCompatActivity implements AdapterView.OnItemCl
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Leccion lesson = lecciones[i];
+        Lesson lesson = lecciones[i];
         Intent intent = new Intent(this, NewLesson.class);
         intent.putExtra("com.mylaneza.jamarte.ID",lesson.id);
         startActivityForResult( intent,0);
@@ -134,7 +129,7 @@ public class Lecciones extends AppCompatActivity implements AdapterView.OnItemCl
                 editor.putString("com.mylaneza.jamarte.SP_LECCION_ESCUELA",escuela);
                 editor.commit();
                 if(escuela != null && !"Todos".equals(escuela)){
-                    Leccion[] lecciones = db.getLeccionesDeEscuela(escuela);
+                    Lesson[] lecciones = db.getLeccionesDeEscuela(escuela);
                     if(lecciones.length > 0){
                         this.lecciones = lecciones;
                         AdaptadorLecciones ap = (AdaptadorLecciones) list.getAdapter();

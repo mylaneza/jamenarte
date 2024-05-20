@@ -11,21 +11,21 @@ public class SecuenciaPaso {
     public int repeticion;
     public String detalle;
 
-    Paso p;
+    Step p;
 
     public String getNombre(){
-        return p.nombre;
+        return p.name;
     }
 
     public int getCuenta(){
-        return p.cuenta;
+        return p.count;
     }
 
     public String getBase(){
         return p.base;
     }
 
-    public void setStep(Paso paso) {
+    public void setStep(Step paso) {
         p = paso;
     }
 }

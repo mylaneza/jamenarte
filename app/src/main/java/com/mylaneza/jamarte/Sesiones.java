@@ -14,20 +14,19 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mylaneza.jamarte.adapters.AdaptadorSesiones;
 import com.mylaneza.jamarte.database.DBHelper;
-import com.mylaneza.jamarte.entities.Sesion;
+import com.mylaneza.jamarte.entities.Session;
 
 import com.mylaneza.jamarte.forms.NewSesion;
 
 public class Sesiones extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    Sesion[] sesiones;
+    Session[] sesiones;
     GridView list;
     TextView monto;
     @Override
@@ -58,7 +57,7 @@ public class Sesiones extends AppCompatActivity implements AdapterView.OnItemCli
     private void calculaTotal(){
         int total = 0;
         for( int i = 0 ; i < sesiones.length ; i++){
-            total+=(int)sesiones[i].monto;
+            total+=(int)sesiones[i].amount;
         }
         monto.setText("Monto total $"+total);
     }
@@ -91,7 +90,7 @@ public class Sesiones extends AppCompatActivity implements AdapterView.OnItemCli
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Sesion p = sesiones[i];
+        Session p = sesiones[i];
         Intent intent = new Intent(this, NewSesion.class);
         intent.putExtra("com.mylaneza.jamarte.ID",p.id);
         startActivityForResult( intent, 0 );

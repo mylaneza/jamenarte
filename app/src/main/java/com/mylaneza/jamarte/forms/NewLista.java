@@ -1,11 +1,8 @@
 package com.mylaneza.jamarte.forms;
 
-import android.app.Activity;
-
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -13,12 +10,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.mylaneza.jamarte.Miembros;
 import com.mylaneza.jamarte.database.DBHelper;
-import com.mylaneza.jamarte.entities.Miembro;
+import com.mylaneza.jamarte.entities.Member;
 import com.mylaneza.jamarte.R;
 
-import com.mylaneza.jamarte.entities.SesionEstudiante;
+import com.mylaneza.jamarte.entities.MemberSession;
 
 import java.util.Vector;
 
@@ -26,7 +22,7 @@ import java.util.Vector;
 public class NewLista extends AppCompatActivity {
 
     Spinner spinner;
-    Miembro[] miembros;
+    Member[] miembros;
     String[] nicknames;
     long id;
 
@@ -43,7 +39,7 @@ public class NewLista extends AppCompatActivity {
         if(list_ids != null && list_ids.length > 0){
 
             //Elimina de la lista los miembros que ya fueron agregados a la sesion
-            Vector<Miembro> members = new Vector<Miembro>();
+            Vector<Member> members = new Vector<Member>();
 
             for(int i = 0 ; i < miembros.length ; i++){
                 boolean alreadyInList = false;
@@ -59,7 +55,7 @@ public class NewLista extends AppCompatActivity {
                     members.add(miembros[i]);
                 }
             }
-            miembros = new Miembro[0];
+            miembros = new Member[0];
             miembros = members.toArray(miembros);
 
         }
@@ -82,10 +78,10 @@ public class NewLista extends AppCompatActivity {
 
         //Toast.makeText(this,miembros[spinner.getSelectedItemPosition()].nickname,Toast.LENGTH_SHORT).show();
         DBHelper db = new DBHelper(this);
-        SesionEstudiante se = new SesionEstudiante();
-        Miembro m =  miembros[spinner.getSelectedItemPosition()];
-        se.miembro = m.id;
-        se.sesion = id;
+        MemberSession se = new MemberSession();
+        Member m =  miembros[spinner.getSelectedItemPosition()];
+        se.memberId = m.id;
+        se.sessionId = id;
         if(db.insertaLista(se)> -1) {
             Toast.makeText(this, m.nickname + " agregado.", Toast.LENGTH_SHORT).show();
             setResult(RESULT_OK);

@@ -22,8 +22,8 @@ import com.mylaneza.jamarte.R;
 import com.mylaneza.jamarte.Secuencias;
 import com.mylaneza.jamarte.adapters.AdaptadorPasos;
 import com.mylaneza.jamarte.database.DBHelper;
-import com.mylaneza.jamarte.entities.Leccion;
-import com.mylaneza.jamarte.entities.Paso;
+import com.mylaneza.jamarte.entities.Lesson;
+import com.mylaneza.jamarte.entities.Step;
 
 public class NewLesson extends AppCompatActivity implements AdapterView.OnItemLongClickListener {
 
@@ -36,9 +36,9 @@ public class NewLesson extends AppCompatActivity implements AdapterView.OnItemLo
     ListView listaPasos;
     long id;
 
-    Leccion leccion;
+    Lesson leccion;
 
-    Paso[] pasos;
+    Step[] pasos;
 
     String[] nombresPasos;
     @Override
@@ -69,37 +69,37 @@ public class NewLesson extends AppCompatActivity implements AdapterView.OnItemLo
 
             if(leccion != null){
                 //setTitle(leccion.objetivo);
-                setTitle(leccion.nivel+"-"+leccion.nombre);
-                nombre.setText(leccion.nombre);
-                nivel.setText(leccion.nivel);
-                escuela.setText(leccion.escuela);
-                objetivo.setText(leccion.objetivo);
-                descripcion.setText(leccion.descripcion);
-                Paso[] pasos1 = new Paso[0];
-                pasos1 = leccion.pasos.toArray(pasos1);
+                setTitle(leccion.level +"-"+leccion.name);
+                nombre.setText(leccion.name);
+                nivel.setText(leccion.level);
+                escuela.setText(leccion.school);
+                objetivo.setText(leccion.objective);
+                descripcion.setText(leccion.description);
+                Step[] pasos1 = new Step[0];
+                pasos1 = leccion.steps.toArray(pasos1);
                 listaPasos.setAdapter(new AdaptadorPasos(this,pasos1));
             }
         }else{
-            Paso[] pasos1 = new Paso[0];
+            Step[] pasos1 = new Step[0];
 
             listaPasos.setAdapter(new AdaptadorPasos(this,pasos1));
-            leccion = new Leccion();
+            leccion = new Lesson();
         }
     }
 
     private void getNombresPasos(){
         nombresPasos = new String[pasos.length];
         for(int i = 0 ; i < pasos.length ; i++){
-            nombresPasos[i] = pasos[i].nombre+" "+pasos[i].base+" "+pasos[i].cuenta;
+            nombresPasos[i] = pasos[i].name +" "+pasos[i].base+" "+pasos[i].count;
         }
     }
 
 
     public void agregaPaso(View v){
-        leccion.pasos.add(pasos[spPasos.getSelectedItemPosition()]);
+        leccion.steps.add(pasos[spPasos.getSelectedItemPosition()]);
         AdaptadorPasos ap = (AdaptadorPasos) listaPasos.getAdapter();
-        Paso[] pasos1 = new Paso[0];
-        pasos1 = leccion.pasos.toArray(pasos1);
+        Step[] pasos1 = new Step[0];
+        pasos1 = leccion.steps.toArray(pasos1);
         ap.pasos =  pasos1;
         //Log.i("PASOS",""+pasos1.length);
         ap.notifyDataSetChanged();
@@ -109,21 +109,21 @@ public class NewLesson extends AppCompatActivity implements AdapterView.OnItemLo
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l){
         //Borrar paso
-        leccion.pasos.remove(i);
+        leccion.steps.remove(i);
         AdaptadorPasos ap = (AdaptadorPasos) listaPasos.getAdapter();
-        Paso[] pasos1 = new Paso[0];
-        pasos1 = leccion.pasos.toArray(pasos1);
+        Step[] pasos1 = new Step[0];
+        pasos1 = leccion.steps.toArray(pasos1);
         ap.pasos =  pasos1;
         ap.notifyDataSetChanged();
         return true;
     }
 
     public void salvar(View v){
-        leccion.nombre = this.nombre.getText().toString();
-        leccion.nivel = this.nivel.getText().toString();
-        leccion.escuela = this.escuela.getText().toString();
-        leccion.objetivo = this.objetivo.getText().toString();
-        leccion.descripcion = this.descripcion.getText().toString();
+        leccion.name = this.nombre.getText().toString();
+        leccion.level = this.nivel.getText().toString();
+        leccion.school = this.escuela.getText().toString();
+        leccion.objective = this.objetivo.getText().toString();
+        leccion.description = this.descripcion.getText().toString();
         DBHelper db = new DBHelper(this);
         if(this.id < 0){
 

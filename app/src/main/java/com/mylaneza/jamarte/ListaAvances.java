@@ -5,18 +5,16 @@ package com.mylaneza.jamarte;
 import android.os.Bundle;
 import android.content.SharedPreferences;
 import android.util.Base64;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.view.Menu;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mylaneza.jamarte.database.DBHelper;
-import com.mylaneza.jamarte.entities.Avance;
-import com.mylaneza.jamarte.entities.Leccion;
-import com.mylaneza.jamarte.entities.Miembro;
+import com.mylaneza.jamarte.entities.Progress;
+import com.mylaneza.jamarte.entities.Lesson;
+import com.mylaneza.jamarte.entities.Member;
 
 import java.util.Hashtable;
 
@@ -58,8 +56,8 @@ public class ListaAvances extends AppCompatActivity  {
      */
     private void loadData(String school){
         DBHelper db = new DBHelper(this);
-        Miembro[] miembros = db.getMiembros();
-        Leccion[] lecciones = db.getLeccionesDeEscuela(school);
+        Member[] miembros = db.getMiembros();
+        Lesson[] lecciones = db.getLeccionesDeEscuela(school);
         db.close();
         StringBuilder pageHeader = new StringBuilder();
         pageHeader.append("<html>");
@@ -97,21 +95,21 @@ public class ListaAvances extends AppCompatActivity  {
         pageHeader.append("<table border=\"1\">");
         StringBuilder table = new StringBuilder("<tr><th>Miembro</th>");
         //Log.i("Avances",""+lecciones.length);
-        for (Leccion leccione : lecciones) {
+        for (Lesson leccione : lecciones) {
             table.append("<th>");
-            table.append( leccione.nivel);
+            table.append( leccione.level);
             table.append("-");
-            table.append(leccione.nombre);
+            table.append(leccione.name);
             table.append("</th>");
         }
         table.append("</tr>");
         int count = 1;
-        for (Miembro miembro : miembros) {
+        for (Member miembro : miembros) {
             //Avance[] arr1 = db.getAvances(miembro.id);
-            Avance[] arr1 = db.getListaAvances(school,miembro.id);
+            Progress[] arr1 = db.getListaAvances(school,miembro.id);
             boolean hasBeenPresent = false;
             //Log.i("Miembro",miembro.nickname);
-            for(Avance a : arr1 ){
+            for(Progress a : arr1 ){
 
                 if(a != null && a.rol != 0){
                     //Log.i("Leccion "+a.leccion,"Rol"+a.rol);
@@ -129,9 +127,9 @@ public class ListaAvances extends AppCompatActivity  {
             row.append("</td>");
 
 
-            Hashtable<Long, Avance> avances = setAvances(arr1);
-            for (Leccion leccione : lecciones) {
-                Avance avance = avances.get(leccione.id);
+            Hashtable<Long, Progress> avances = setAvances(arr1);
+            for (Lesson leccione : lecciones) {
+                Progress avance = avances.get(leccione.id);
                 if (avance == null) {
                     /*row.append("<td bgcolor=\"");
                     row.append(WHITE);
@@ -182,10 +180,10 @@ public class ListaAvances extends AppCompatActivity  {
 
     }
 
-    public Hashtable<Long,Avance> setAvances(Avance[] avances){
-        Hashtable<Long,Avance> avn = new Hashtable<Long,Avance>();
-        for (Avance avance : avances) {
-            avn.put(avance.leccion, avance);
+    public Hashtable<Long, Progress> setAvances(Progress[] avances){
+        Hashtable<Long, Progress> avn = new Hashtable<Long, Progress>();
+        for (Progress avance : avances) {
+            avn.put(avance.lessonId, avance);
         }
         return avn;
     }

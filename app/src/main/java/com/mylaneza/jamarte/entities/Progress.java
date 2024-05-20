@@ -3,9 +3,9 @@ package com.mylaneza.jamarte.entities;
 /**
  * Created by mylaneza on 07/07/2018.
  */
-public class Avance {
+public class Progress {
     public long id;
-    public long leccion;
+    public long lessonId;
     public int rol;
-    public long miembro;
+    public long memberId;
 }

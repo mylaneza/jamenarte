@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.mylaneza.jamarte.database.DBHelper;
 
 import com.mylaneza.jamarte.R;
-import com.mylaneza.jamarte.entities.Sesion;
+import com.mylaneza.jamarte.entities.Session;
 import com.mylaneza.jamarte.SesionesEstudiantes;
 
 
@@ -24,7 +24,7 @@ public class NewSesion extends AppCompatActivity {
     EditText monto;
     EditText escuela;
 
-    Sesion sesion;
+    Session sesion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,33 +39,33 @@ public class NewSesion extends AppCompatActivity {
             DBHelper db = new DBHelper(this);
             sesion = db.getSesion(id);
             if(sesion != null){
-                numero.setText(""+sesion.numero);
-                fecha.setText(sesion.fecha);
-                monto.setText(""+sesion.monto);
-                escuela.setText(""+sesion.escuela);
+                numero.setText(""+sesion.number);
+                fecha.setText(sesion.date);
+                monto.setText(""+sesion.amount);
+                escuela.setText(""+sesion.school);
             }
         }else{
-            sesion = new Sesion();
+            sesion = new Session();
         }
     }
 
     public void salvar(View v){
         try {
-            sesion.numero = Integer.parseInt(numero.getText().toString());
+            sesion.number = Integer.parseInt(numero.getText().toString());
         }catch(Exception e){
             Toast.makeText(this, "El numero de la leccion debe ser entero", Toast.LENGTH_SHORT).show();
             return;
         }
 
         try{
-            sesion.monto = Double.parseDouble(monto.getText().toString());
+            sesion.amount = Double.parseDouble(monto.getText().toString());
         }catch (Exception e){
             Toast.makeText(this, "El monto debe ser doble", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        sesion.fecha = fecha.getText().toString();
-        sesion.escuela = escuela.getText().toString();
+        sesion.date = fecha.getText().toString();
+        sesion.school = escuela.getText().toString();
         DBHelper db = new DBHelper(this);
         if(this.id < 0){
 

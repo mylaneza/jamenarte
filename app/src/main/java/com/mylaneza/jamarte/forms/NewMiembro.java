@@ -14,9 +14,9 @@ import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.mylaneza.jamarte.Avances;
+import com.mylaneza.jamarte.ProgressScreen;
 import com.mylaneza.jamarte.database.DBHelper;
-import com.mylaneza.jamarte.entities.Miembro;
+import com.mylaneza.jamarte.entities.Member;
 import com.mylaneza.jamarte.R;
 
 public class NewMiembro extends AppCompatActivity {
@@ -45,14 +45,14 @@ public class NewMiembro extends AppCompatActivity {
         if(id > -1) {
             //Log.i("ID",""+id);
             DBHelper db = new DBHelper(this);
-            Miembro m = db.getMiembro(id);
+            Member m = db.getMiembro(id);
             if(m != null){
                 nick.setText(m.nickname);
-                nombre.setText(m.nombre);
-                apellidom.setText(m.apellidom);
-                apellidop.setText(m.apellidop);
-                cumple.setText(m.cumple);
-                genero.setChecked(m.genero == 1);
+                nombre.setText(m.name);
+                apellidom.setText(m.lastNameMother);
+                apellidop.setText(m.lastNameParent);
+                cumple.setText(m.birthday);
+                genero.setChecked(m.gender == 1);
             }
         }
     }
@@ -64,14 +64,14 @@ public class NewMiembro extends AppCompatActivity {
     }
 
     public void salvar(View v){
-        Miembro mt = new Miembro();
+        Member mt = new Member();
         mt.id = id;
         mt.nickname = this.nick.getText().toString();
-        mt.nombre = this.nombre.getText().toString();
-        mt.apellidom = this.apellidom.getText().toString();
-        mt.apellidop  = this.apellidop.getText().toString();
-        mt.cumple = this.cumple.getText().toString();
-        mt.genero = this.genero.isChecked() ? 1 : 0;
+        mt.name = this.nombre.getText().toString();
+        mt.lastNameMother = this.apellidom.getText().toString();
+        mt.lastNameParent = this.apellidop.getText().toString();
+        mt.birthday = this.cumple.getText().toString();
+        mt.gender = this.genero.isChecked() ? 1 : 0;
         DBHelper db = new DBHelper(this);
         if(id < 0 ){
             if(db.insertaMiembro(mt)> -1) {
@@ -93,7 +93,7 @@ public class NewMiembro extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         if( item.getItemId() == R.id.item_avances ){
             if(id > -1) {
-                Intent i = new Intent(this, Avances.class);
+                Intent i = new Intent(this, ProgressScreen.class);
                 i.putExtra("com.mylaneza.jamarte.ID",id);
                 startActivityForResult(i, 0);
                 return true;

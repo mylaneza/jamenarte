@@ -18,18 +18,16 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mylaneza.jamarte.adapters.AdaptadorAvances;
-import com.mylaneza.jamarte.adapters.AdaptadorLecciones;
 import com.mylaneza.jamarte.database.DBHelper;
-import com.mylaneza.jamarte.entities.Avance;
-import com.mylaneza.jamarte.entities.Leccion;
+import com.mylaneza.jamarte.entities.Progress;
+import com.mylaneza.jamarte.entities.Lesson;
 
 import com.mylaneza.jamarte.forms.NewLesson;
 
-public class Avances extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
-
+public class ProgressScreen extends AppCompatActivity implements AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     ListView list;
-    Leccion[] lecciones;
+    Lesson[] lessons;
 
     long memberId;
     @Override
@@ -40,12 +38,11 @@ public class Avances extends AppCompatActivity implements AdapterView.OnItemClic
 
         SharedPreferences sp = getSharedPreferences("com.mylaneza.jamarte.PREFERENCIAS",MODE_PRIVATE);
         String school = sp.getString("com.mylaneza.jamarte.SP_LECCION_ESCUELA",null);
-        list = (ListView) findViewById(R.id.listAvances);
+        list = findViewById(R.id.listAvances);
         DBHelper db = new DBHelper(this);
-        Avance[] avances = db.getAvances(memberId);
-        //Log.i("Avances",""+avances.length);
-        lecciones = db.getLeccionesDeEscuela(school);
-        list.setAdapter(new AdaptadorAvances(this,avances,lecciones,memberId));
+        Progress[] avances = db.getAvances(memberId);
+        lessons = db.getLeccionesDeEscuela(school);
+        list.setAdapter(new AdaptadorAvances(this,avances,lessons,memberId));
         list.setOnItemClickListener(this);
         list.setOnItemLongClickListener(this);
     }
@@ -59,9 +56,9 @@ public class Avances extends AppCompatActivity implements AdapterView.OnItemClic
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Leccion leccion = lecciones[i];
+        Lesson leccion = lessons[i];
         AdaptadorAvances adaptador = (AdaptadorAvances)list.getAdapter();
-        Avance avance = adaptador.getAvance(leccion.id);
+        Progress avance = adaptador.getAvance(leccion.id);
         if(avance.rol == 3)
             avance.rol = 0;
         else
@@ -88,7 +85,7 @@ public class Avances extends AppCompatActivity implements AdapterView.OnItemClic
 
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Leccion lesson = lecciones[i];
+        Lesson lesson = lessons[i];
         Intent intent = new Intent(this, NewLesson.class);
         intent.putExtra("com.mylaneza.jamarte.ID",lesson.id);
         startActivity( intent);
@@ -138,19 +135,19 @@ public class Avances extends AppCompatActivity implements AdapterView.OnItemClic
                 editor.putString("com.mylaneza.jamarte.SP_LECCION_ESCUELA",escuela);
                 editor.commit();
                 if(escuela != null && !"Todos".equals(escuela)){
-                    Leccion[] lecciones = db.getLeccionesDeEscuela(escuela);
+                    Lesson[] lecciones = db.getLeccionesDeEscuela(escuela);
                     if(lecciones.length > 0){
-                        this.lecciones = lecciones;
+                        this.lessons = lecciones;
                         AdaptadorAvances ap = (AdaptadorAvances) list.getAdapter();
-                        ap.lecciones = this.lecciones;
+                        ap.lecciones = this.lessons;
                         ap.notifyDataSetChanged();
                     }else{
                         Toast.makeText(this,"No se encontraron sesiones para esa escuela.",Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    this.lecciones = db.getLecciones();
+                    this.lessons = db.getLecciones();
                     AdaptadorAvances ap = (AdaptadorAvances) list.getAdapter();
-                    ap.lecciones = this.lecciones;
+                    ap.lecciones = this.lessons;
                     ap.notifyDataSetChanged();
                 }
             }

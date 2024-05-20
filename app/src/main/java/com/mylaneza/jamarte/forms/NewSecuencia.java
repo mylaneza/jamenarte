@@ -1,6 +1,5 @@
 package com.mylaneza.jamarte.forms;
 
-import android.app.Activity;
 import android.content.Intent;
 
 import android.os.Bundle;
@@ -16,8 +15,8 @@ import com.mylaneza.jamarte.SecuenciaPasos;
 
 import com.mylaneza.jamarte.database.DBHelper;
 
-import com.mylaneza.jamarte.entities.Leccion;
-import com.mylaneza.jamarte.entities.Secuencia;
+import com.mylaneza.jamarte.entities.Lesson;
+import com.mylaneza.jamarte.entities.Sequence;
 
 
 public class NewSecuencia extends AppCompatActivity {
@@ -26,7 +25,7 @@ public class NewSecuencia extends AppCompatActivity {
 
     EditText name;
     TextView leccion;
-    Leccion l;
+    Lesson l;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,15 +39,15 @@ public class NewSecuencia extends AppCompatActivity {
 
             DBHelper db = new DBHelper(this);
             //l = db.getLeccion(id);
-            Secuencia s = db.getSecuencia(id);
-            l = db.getLeccion(s.leccion);
+            Sequence s = db.getSecuencia(id);
+            l = db.getLeccion(s.lessonId);
             name.setText(s.name);
-            leccion.setText(""+l.nivel+"-"+l.nombre);
+            leccion.setText(""+l.level +"-"+l.name);
         }else{
             long idlec = intent.getLongExtra("com.mylaneza.jamarte.LECCION",-1);
             DBHelper db = new DBHelper(this);
             l = db.getLeccion(idlec);
-            leccion.setText(""+l.nivel+"-"+l.nombre);
+            leccion.setText(""+l.level +"-"+l.name);
         }
     }
 
@@ -65,8 +64,8 @@ public class NewSecuencia extends AppCompatActivity {
     public void salvar(View v){
         String nombre = name.getText().toString().trim();
         if(nombre.length() > 0){
-            Secuencia s = new Secuencia();
-            s.leccion = l.id;
+            Sequence s = new Sequence();
+            s.lessonId = l.id;
             s.name = nombre;
             DBHelper db = new DBHelper(this);
             if(id > -1){

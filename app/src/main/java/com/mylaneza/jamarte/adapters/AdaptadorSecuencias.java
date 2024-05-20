@@ -8,18 +8,17 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.mylaneza.jamarte.R;
-import com.mylaneza.jamarte.entities.Paso;
-import com.mylaneza.jamarte.entities.Secuencia;
+import com.mylaneza.jamarte.entities.Sequence;
 
 /**
  * Created by mylaneza on 12/08/2018.
  */
 public class AdaptadorSecuencias extends BaseAdapter {
 
-    Secuencia secuencias[];
+    Sequence secuencias[];
     Context ctx;
 
-    public AdaptadorSecuencias(Context ctx, Secuencia secuencias[]){
+    public AdaptadorSecuencias(Context ctx, Sequence secuencias[]){
         this.ctx = ctx;
         this.secuencias = secuencias;
     }
@@ -49,7 +48,7 @@ public class AdaptadorSecuencias extends BaseAdapter {
             row = view;
         }
         TextView nombre = row.findViewById(R.id.rsnombre);
-        Secuencia s = secuencias[i];
+        Sequence s = secuencias[i];
         //Log.i("Paso",p.toString());
         nombre.setText(s.name);
 

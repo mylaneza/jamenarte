@@ -8,8 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.mylaneza.jamarte.entities.Leccion;
-import com.mylaneza.jamarte.entities.Paso;
+import com.mylaneza.jamarte.entities.Lesson;
 import com.mylaneza.jamarte.R;
 
 /**
@@ -17,11 +16,11 @@ import com.mylaneza.jamarte.R;
  */
 public class AdaptadorLecciones extends BaseAdapter {
 
-    public Leccion lecciones[];
+    public Lesson lecciones[];
     Activity ctx;
 
 
-    public AdaptadorLecciones(Activity ctx, Leccion[] lecciones){
+    public AdaptadorLecciones(Activity ctx, Lesson[] lecciones){
         this.ctx = ctx;
         this.lecciones = lecciones;
     }
@@ -58,11 +57,11 @@ public class AdaptadorLecciones extends BaseAdapter {
         TextView objetivo = row.findViewById(R.id.rowLeccionObjetivo);
 
 
-        Leccion p = lecciones[i];
+        Lesson p = lecciones[i];
         //Log.i("Paso",p.toString());
-        nombre.setText(p.nivel+"-"+p.nombre);
-        escuela.setText(p.escuela);
-        objetivo.setText(p.objetivo);
+        nombre.setText(p.level +"-"+p.name);
+        escuela.setText(p.school);
+        objetivo.setText(p.objective);
 
 
         return row;

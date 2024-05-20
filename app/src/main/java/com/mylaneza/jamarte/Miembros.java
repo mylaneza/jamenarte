@@ -5,7 +5,6 @@ import android.content.Intent;
 
 import android.os.Bundle;
 
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,13 +17,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.mylaneza.jamarte.adapters.AdaptadorMiembros;
 import com.mylaneza.jamarte.database.DBHelper;
-import com.mylaneza.jamarte.entities.Miembro;
+import com.mylaneza.jamarte.entities.Member;
 
 import com.mylaneza.jamarte.forms.NewMiembro;
 
 public class Miembros extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    Miembro[] miembros;
+    Member[] miembros;
     ListView list;
 
     TextView total;
@@ -64,7 +63,7 @@ public class Miembros extends AppCompatActivity implements AdapterView.OnItemCli
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Miembro m = miembros[i];
+        Member m = miembros[i];
         Intent intent = new Intent(this, NewMiembro.class);
         intent.putExtra("com.mylaneza.jamarte.ID",m.id);
         startActivityForResult( intent, 0);

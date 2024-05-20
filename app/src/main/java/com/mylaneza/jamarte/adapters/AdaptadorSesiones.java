@@ -7,19 +7,18 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.mylaneza.jamarte.entities.Paso;
 import com.mylaneza.jamarte.R;
-import com.mylaneza.jamarte.entities.Sesion;
+import com.mylaneza.jamarte.entities.Session;
 
 /**
  * Created by mylaneza on 12/08/2018.
  */
 public class AdaptadorSesiones extends BaseAdapter{
 
-    public Sesion sesiones[];
+    public Session sesiones[];
     Context ctx;
 
-    public  AdaptadorSesiones(Context ctx, Sesion sesiones[]){
+    public  AdaptadorSesiones(Context ctx, Session sesiones[]){
         this.ctx = ctx;
         this.sesiones = sesiones;
     }
@@ -52,12 +51,12 @@ public class AdaptadorSesiones extends BaseAdapter{
         TextView fecha = row.findViewById(R.id.tvSesionFecha);
         TextView escuela = row.findViewById(R.id.tvSesionEscuela);
 
-        Sesion p = sesiones[i];
+        Session p = sesiones[i];
         //Log.i("Paso",p.toString());
-        numero.setText(""+p.numero);
-        monto.setText(""+p.monto);
-        fecha.setText(p.fecha);
-        escuela.setText(""+p.escuela);
+        numero.setText(""+p.number);
+        monto.setText(""+p.amount);
+        fecha.setText(p.date);
+        escuela.setText(""+p.school);
         return row;
     }
 }

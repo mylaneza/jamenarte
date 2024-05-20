@@ -13,8 +13,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.mylaneza.jamarte.adapters.AdaptadorMiembros;
 import com.mylaneza.jamarte.database.DBHelper;
-import com.mylaneza.jamarte.entities.Miembro;
-import com.mylaneza.jamarte.entities.Sesion;
+import com.mylaneza.jamarte.entities.Member;
+import com.mylaneza.jamarte.entities.Session;
 import com.mylaneza.jamarte.forms.NewLista;
 
 import java.util.Vector;
@@ -22,16 +22,16 @@ import android.util.Log;
 
 public class SesionesEstudiantes extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener/*, PopupMenu.OnMenuItemClickListener*/ {
     //Haber
-    Miembro[] lista;
+    Member[] lista;
     GridView list;
     long id;
-    Sesion sesion;
+    Session sesion;
     long selectedMember;
-    Miembro nacho;
+    Member nacho;
 
 
-    Vector<Miembro> followers = new Vector<Miembro>();
-    Vector<Miembro> lideres = new Vector<Miembro>();
+    Vector<Member> followers = new Vector<Member>();
+    Vector<Member> lideres = new Vector<Member>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class SesionesEstudiantes extends AppCompatActivity implements AdapterVie
             finish();
         }else{
             sesion = db.getSesion(id);
-            setTitle(sesion.escuela+" "+sesion.numero);
+            setTitle(sesion.school +" "+sesion.number);
         }
         lista = actualizaLista(db);
         TextView totalTextView = findViewById(R.id.seTotal);
@@ -59,7 +59,7 @@ public class SesionesEstudiantes extends AppCompatActivity implements AdapterVie
 
     }
 
-    private void quickSort(Miembro[] arr, int low, int high) {
+    private void quickSort(Member[] arr, int low, int high) {
         if(low < high){
             int pi = partition(arr,low,high);
             Log.i("Partition Index",""+pi);
@@ -68,36 +68,36 @@ public class SesionesEstudiantes extends AppCompatActivity implements AdapterVie
         }
     }
 
-    private int partition(Miembro[] arr, int low, int high) {
-        Miembro pivot = arr[high];
+    private int partition(Member[] arr, int low, int high) {
+        Member pivot = arr[high];
         int i = low -1;
         for(int j= low; j<=high-1;j++){
             if(arr[j].nickname.compareTo(pivot.nickname) < 0){
                 i++;
-                Miembro temp = arr[i];
+                Member temp = arr[i];
                 arr[i] = arr[j];
                 arr[j] = temp;
             }
         }
-        Miembro temp = arr[i+1];
+        Member temp = arr[i+1];
         arr[i+1] = arr[high];
         arr[high] = temp;
         return i + 1;
     }
 
-    private Miembro[] actualizaLista(DBHelper db){
-        Miembro[] lista = db.getListas(id);
-        for(Miembro miembro : lista)
-            miembro.avancesGenero = db.getTotalAvancesGenero(miembro.id,miembro.genero);
+    private Member[] actualizaLista(DBHelper db){
+        Member[] lista = db.getListas(id);
+        for(Member miembro : lista)
+            miembro.progressByGender = db.getTotalAvancesGenero(miembro.id,miembro.gender);
         return lista;
     }
 
     private void asignaParejas(){
-        Vector<Miembro> mushashas = new Vector<Miembro>();
-        Vector<Miembro> mushashos = new Vector<Miembro>();
+        Vector<Member> mushashas = new Vector<Member>();
+        Vector<Member> mushashos = new Vector<Member>();
 
         for(int i = 0 ; i < lista.length ; i++){
-            if(lista[i].genero == 0) {
+            if(lista[i].gender == 0) {
                 mushashos.add(lista[i]);
             }else {
                 mushashas.add(lista[i]);
@@ -113,7 +113,7 @@ public class SesionesEstudiantes extends AppCompatActivity implements AdapterVie
         ordenaLista(mushashos,mushashas,sobra);
     }
 
-    private void ordenaLista(Vector<Miembro> mushashos,Vector<Miembro> mushashas,boolean sobra){
+    private void ordenaLista(Vector<Member> mushashos, Vector<Member> mushashas, boolean sobra){
         int cuantasMushashas = mushashas.size();
         int cuantosMushashos = mushashos.size();
 
@@ -133,7 +133,7 @@ public class SesionesEstudiantes extends AppCompatActivity implements AdapterVie
         }
     }
 
-    private void remueveNacho(Vector<Miembro> mushashos){
+    private void remueveNacho(Vector<Member> mushashos){
         int length = mushashos.size();
         for(int i = 0 ; i < length ; i++ ){
             if("Nacho".equals(mushashos.elementAt(i).nickname)){
@@ -194,7 +194,7 @@ public class SesionesEstudiantes extends AppCompatActivity implements AdapterVie
         popup.setOnMenuItemClickListener(this);
         popup.show();*/
 
-        Intent intent = new Intent(this, Avances.class);
+        Intent intent = new Intent(this, ProgressScreen.class);
         intent.putExtra("com.mylaneza.jamarte.ID",lista[i].id);
         startActivityForResult(intent, 0);
 

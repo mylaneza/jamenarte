@@ -1,7 +1,5 @@
 package com.mylaneza.jamarte.forms;
 
-import android.app.Activity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.mylaneza.jamarte.R;
 import com.mylaneza.jamarte.database.DBHelper;
-import com.mylaneza.jamarte.entities.Paso;
+import com.mylaneza.jamarte.entities.Step;
 import com.mylaneza.jamarte.entities.SecuenciaPaso;
 
 public class NewSecuenciaPaso extends AppCompatActivity {
@@ -23,7 +21,7 @@ public class NewSecuenciaPaso extends AppCompatActivity {
     EditText repeticion;
     EditText detalle;
 
-    Paso[] pasos;
+    Step[] pasos;
 
     String[] nombresPasos;
 
@@ -70,7 +68,7 @@ public class NewSecuenciaPaso extends AppCompatActivity {
     private void getNombresPasos(){
         nombresPasos = new String[pasos.length];
         for(int i = 0 ; i < pasos.length ; i++){
-            nombresPasos[i] = pasos[i].nombre+" "+pasos[i].base+" "+pasos[i].cuenta;
+            nombresPasos[i] = pasos[i].name +" "+pasos[i].base+" "+pasos[i].count;
         }
     }
 

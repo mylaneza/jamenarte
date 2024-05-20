@@ -1,21 +1,18 @@
 package com.mylaneza.jamarte.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 
 import com.mylaneza.jamarte.R;
 import com.mylaneza.jamarte.database.DBHelper;
-import com.mylaneza.jamarte.entities.Avance;
-import com.mylaneza.jamarte.entities.Leccion;
+import com.mylaneza.jamarte.entities.Progress;
+import com.mylaneza.jamarte.entities.Lesson;
 
 import java.util.Hashtable;
 
@@ -26,23 +23,23 @@ public class AdaptadorAvances extends BaseAdapter  {
 
 
     //Leccion,Avance
-    Hashtable<Long,Avance> avances;
+    Hashtable<Long, Progress> avances;
 
     Context ctx;
-    public Leccion[] lecciones;
+    public Lesson[] lecciones;
     long memberId;
 
-    public AdaptadorAvances(Context ctx , Avance[] avances,Leccion lecciones[],long memberId){
+    public AdaptadorAvances(Context ctx , Progress[] avances, Lesson lecciones[], long memberId){
         setAvances(avances);
         this.ctx = ctx;
         this.lecciones = lecciones;
         this.memberId = memberId;
     }
 
-    public void setAvances(Avance[] avances){
-        this.avances = new Hashtable<Long,Avance>();
+    public void setAvances(Progress[] avances){
+        this.avances = new Hashtable<Long, Progress>();
         for(int i = 0; i < avances.length;i++)
-            this.avances.put(avances[i].leccion,avances[i]);
+            this.avances.put(avances[i].lessonId,avances[i]);
     }
 
 
@@ -75,13 +72,13 @@ public class AdaptadorAvances extends BaseAdapter  {
         TextView objetivo = row.findViewById(R.id.rowAvanceObjetivo);
 
 
-        Leccion p = lecciones[i];
+        Lesson p = lecciones[i];
 
         //Log.i("Paso",p.toString());
-        nombre.setText(p.nivel+"-"+p.nombre);
-        objetivo.setText(p.objetivo);
+        nombre.setText(p.level +"-"+p.name);
+        objetivo.setText(p.objective);
 
-        Avance avance = avances.get(p.id);
+        Progress avance = avances.get(p.id);
         if(avance != null){
             switch (avance.rol){
                 case 0: // ni lider ni follower
@@ -114,10 +111,10 @@ public class AdaptadorAvances extends BaseAdapter  {
 
         }else{
 
-            avance = new Avance();
+            avance = new Progress();
             avance.rol = 0;
-            avance.leccion = p.id;
-            avance.miembro = memberId;
+            avance.lessonId = p.id;
+            avance.memberId = memberId;
             DBHelper db = new DBHelper(ctx);
             db.insertaAvance(avance);
             row.setBackgroundColor(Color.WHITE);
@@ -127,7 +124,7 @@ public class AdaptadorAvances extends BaseAdapter  {
         return row;
     }
 
-    public Avance getAvance(long leccionId){
+    public Progress getAvance(long leccionId){
         return avances.get(leccionId);
     }
 

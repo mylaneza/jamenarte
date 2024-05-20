@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.mylaneza.jamarte.database.DBHelper;
 
-import com.mylaneza.jamarte.entities.Paso;
+import com.mylaneza.jamarte.entities.Step;
 import com.mylaneza.jamarte.R;
 
 public class NewPaso extends AppCompatActivity implements View.OnClickListener{
@@ -40,39 +40,39 @@ public class NewPaso extends AppCompatActivity implements View.OnClickListener{
         id = getIntent().getLongExtra("com.mylaneza.jamarte.ID",-1);
         if(id > -1) {
             DBHelper db = new DBHelper(this);
-            Paso p = db.getPaso(id);
+            Step p = db.getPaso(id);
 
             if(p != null){
-                nombre.setText(p.nombre);
+                nombre.setText(p.name);
 
-                cuenta.setText(""+p.cuenta);
+                cuenta.setText(""+p.count);
                 base.setText(p.base);
 
-                lider.setText(p.descripcionLider);
-                follower.setText(p.descripcionFollower);
-                path.setText(p.path);
+                lider.setText(p.descriptionLeader);
+                follower.setText(p.descriptionFollower);
+                path.setText(p.videoFilePath);
             }
         }
     }
 
     public void salvar(View v){
-        Paso paso = new Paso();
+        Step paso = new Step();
         paso.id = id;
-        paso.nombre = this.nombre.getText().toString();
+        paso.name = this.nombre.getText().toString();
 
         try {
-            paso.cuenta = Integer.parseInt(this.cuenta.getText().toString());
+            paso.count = Integer.parseInt(this.cuenta.getText().toString());
         }catch(Exception e){
             Toast.makeText(this,"Solo numeros enteros para la cuenta",Toast.LENGTH_SHORT).show();
             return;
         }
         paso.base = this.base.getText().toString();
-        paso.descripcionLider = this.lider.getText().toString();
-        paso.descripcionFollower = this.follower.getText().toString();
+        paso.descriptionLeader = this.lider.getText().toString();
+        paso.descriptionFollower = this.follower.getText().toString();
 
         String pathString = path.getText().toString();
         if(pathString != null && !pathString.isEmpty())
-            paso.path = pathString;
+            paso.videoFilePath = pathString;
         DBHelper db = new DBHelper(this);
 
         if(id < 0 ){

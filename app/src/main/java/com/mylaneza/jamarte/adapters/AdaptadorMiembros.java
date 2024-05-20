@@ -12,7 +12,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mylaneza.jamarte.entities.Miembro;
+import com.mylaneza.jamarte.entities.Member;
 import com.mylaneza.jamarte.R;
 
 /**
@@ -20,9 +20,9 @@ import com.mylaneza.jamarte.R;
  */
 public class AdaptadorMiembros extends BaseAdapter{
 
-    public Miembro[] miembros;
+    public Member[] miembros;
     Activity ctx;
-    public AdaptadorMiembros(Activity ctx, Miembro[] miembros){
+    public AdaptadorMiembros(Activity ctx, Member[] miembros){
         this.ctx = ctx;
         this.miembros = miembros;
     }
@@ -57,13 +57,13 @@ public class AdaptadorMiembros extends BaseAdapter{
         TextView cumple = row.findViewById(R.id.txtCumple);
         TextView id = row.findViewById(R.id.txtId);
 
-        Miembro m = miembros[i];
+        Member m = miembros[i];
         //Log.i("Miembro",m.toString());
         nick.setText(m.nickname);
-        nombre.setText(m.nombre);
-        apellidop.setText(m.apellidop);
-        apellidom.setText(m.apellidom);
-        cumple.setText(m.cumple);
+        nombre.setText(m.name);
+        apellidop.setText(m.lastNameParent);
+        apellidom.setText(m.lastNameMother);
+        cumple.setText(m.birthday);
         id.setText(""+m.id);
         return row;
     }
@@ -79,10 +79,10 @@ public class AdaptadorMiembros extends BaseAdapter{
         TextView miembro = cell.findViewById(R.id.miembroAsistente);
         ImageView imagen = cell.findViewById(R.id.imgDancer);
 
-        Miembro m = miembros[i];
+        Member m = miembros[i];
         //Log.i("Miembro",m.toString());
         miembro.setText(m.nickname);
-        if(m.genero == 0){
+        if(m.gender == 0){
             imagen.setImageResource(R.drawable.dancer);
         }else{
             imagen.setImageResource(R.drawable.dancerf);

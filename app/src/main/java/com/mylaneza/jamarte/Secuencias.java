@@ -15,13 +15,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.mylaneza.jamarte.adapters.AdaptadorSecuencias;
 import com.mylaneza.jamarte.database.DBHelper;
-import com.mylaneza.jamarte.entities.Secuencia;
+import com.mylaneza.jamarte.entities.Sequence;
 
 import com.mylaneza.jamarte.forms.NewSecuencia;
 
 public class Secuencias extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    Secuencia[] secuencias;
+    Sequence[] secuencias;
     ListView list;
     long id;
     @Override

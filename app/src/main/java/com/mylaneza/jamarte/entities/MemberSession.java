@@ -3,8 +3,8 @@ package com.mylaneza.jamarte.entities;
 /**
  * Created by mylaneza on 07/07/2018.
  */
-public class SesionEstudiante {
+public class MemberSession {
 
-    public long sesion;
-    public long miembro;
+    public long sessionId;
+    public long memberId;
 }

@@ -2,15 +2,13 @@ package com.mylaneza.jamarte.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.mylaneza.jamarte.entities.Miembro;
-import com.mylaneza.jamarte.entities.Paso;
+import com.mylaneza.jamarte.entities.Step;
 import com.mylaneza.jamarte.R;
 
 /**
@@ -18,10 +16,10 @@ import com.mylaneza.jamarte.R;
  */
 public class AdaptadorPasos extends BaseAdapter{
 
-    public Paso pasos[];
+    public Step pasos[];
     Activity ctx;
 
-    public AdaptadorPasos(Activity ctx, Paso pasos[]){
+    public AdaptadorPasos(Activity ctx, Step pasos[]){
         this.ctx = ctx;
         this.pasos = pasos;
     }
@@ -58,16 +56,16 @@ public class AdaptadorPasos extends BaseAdapter{
         TextView lider = row.findViewById(R.id.rowPasoLider);
         TextView follower = row.findViewById(R.id.rowPasoFollower);
         TextView id = row.findViewById(R.id.rowPasoId);
-        Paso p = pasos[i];
+        Step p = pasos[i];
         //Log.i("Paso",p.toString());
-        nombre.setText(p.nombre);
+        nombre.setText(p.name);
 
 
-        cuenta.setText(""+p.cuenta);
+        cuenta.setText(""+p.count);
         base.setText(p.base);
 
-        lider.setText(p.descripcionLider);
-        follower.setText(p.descripcionFollower);
+        lider.setText(p.descriptionLeader);
+        follower.setText(p.descriptionFollower);
         id.setText(""+p.id);
         return row;
     }

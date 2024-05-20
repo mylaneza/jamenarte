@@ -9,13 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.mylaneza.jamarte.R;
-import com.mylaneza.jamarte.entities.Paso;
-import com.mylaneza.jamarte.entities.Secuencia;
 import com.mylaneza.jamarte.entities.SecuenciaPaso;
-
-import org.w3c.dom.Text;
-
-import java.util.Vector;
 
 /**
  * Created by mylaneza on 28/10/2018.

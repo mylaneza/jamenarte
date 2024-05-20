@@ -25,7 +25,7 @@
             android:parentActivityName=".MainActivity" />
 
         <activity
-            android:name=".Avances"
+            android:name=".ProgressScreen"
             android:label="@string/strAvances"
             android:parentActivityName=".Miembros" />
         <activity
@@ -46,7 +46,7 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".forms.NewAvance"
-            android:parentActivityName=".Avances" />
+            android:parentActivityName=".ProgressScreen" />
         <activity
             android:name=".forms.NewPaso"
             android:label="@string/strPaso"

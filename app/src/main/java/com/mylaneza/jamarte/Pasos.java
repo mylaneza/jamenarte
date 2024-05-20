@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,14 +17,14 @@ import com.mylaneza.jamarte.adapters.AdaptadorPasos;
 
 import com.mylaneza.jamarte.database.DBContract;
 import com.mylaneza.jamarte.database.DBHelper;
-import com.mylaneza.jamarte.entities.Paso;
+import com.mylaneza.jamarte.entities.Step;
 
 import com.mylaneza.jamarte.forms.NewPaso;
 
 public class Pasos extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     ListView list;
-    Paso[] pasos;
+    Step[] pasos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +66,7 @@ public class Pasos extends AppCompatActivity implements AdapterView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Paso p = pasos[i];
+        Step p = pasos[i];
         Intent intent = new Intent(this, NewPaso.class);
         intent.putExtra("com.mylaneza.jamarte.ID",p.id);
         startActivityForResult( intent,0);

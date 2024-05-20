@@ -5,17 +5,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.mylaneza.jamarte.entities.SesionEstudiante;
+import com.mylaneza.jamarte.entities.MemberSession;
 
 /**
  * Created by mylaneza on 12/08/2018.
  */
 public class AdaptadorLista extends BaseAdapter{
 
-    SesionEstudiante listas[];
+    MemberSession listas[];
     Context ctx;
 
-    public AdaptadorLista(Context ctx, SesionEstudiante listas[]){
+    public AdaptadorLista(Context ctx, MemberSession listas[]){
         this.ctx = ctx;
         this.listas = listas;
     }

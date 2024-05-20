@@ -7,17 +7,16 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
-import android.util.Log;
 
 
-import com.mylaneza.jamarte.entities.Avance;
-import com.mylaneza.jamarte.entities.Leccion;
-import com.mylaneza.jamarte.entities.Miembro;
-import com.mylaneza.jamarte.entities.Paso;
-import com.mylaneza.jamarte.entities.Secuencia;
+import com.mylaneza.jamarte.entities.Progress;
+import com.mylaneza.jamarte.entities.Lesson;
+import com.mylaneza.jamarte.entities.Member;
+import com.mylaneza.jamarte.entities.Step;
+import com.mylaneza.jamarte.entities.Sequence;
 import com.mylaneza.jamarte.entities.SecuenciaPaso;
-import com.mylaneza.jamarte.entities.Sesion;
-import com.mylaneza.jamarte.entities.SesionEstudiante;
+import com.mylaneza.jamarte.entities.Session;
+import com.mylaneza.jamarte.entities.MemberSession;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -197,22 +196,22 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public long insertaMiembro(Miembro miembro){
+    public long insertaMiembro(Member miembro){
         SQLiteDatabase db = getReadableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DBContract.Member.COL_NOMBRE, miembro.nombre );
-        values.put(DBContract.Member.COL_APELLIDOP, miembro.apellidop);
-        values.put(DBContract.Member.COL_APELLIDOM,miembro.apellidom);
+        values.put(DBContract.Member.COL_NOMBRE, miembro.name);
+        values.put(DBContract.Member.COL_APELLIDOP, miembro.lastNameParent);
+        values.put(DBContract.Member.COL_APELLIDOM,miembro.lastNameMother);
         values.put(DBContract.Member.COL_NICK,miembro.nickname);
-        values.put(DBContract.Member.COL_CUMPLE,miembro.cumple);
-        values.put(DBContract.Member.COL_GENERO,miembro.genero);
+        values.put(DBContract.Member.COL_CUMPLE,miembro.birthday);
+        values.put(DBContract.Member.COL_GENERO,miembro.gender);
         long id = db.insert( DBContract.Member.TABLE, null, values);
         close();
         return id;
     }
 
 
-    public Miembro[] getMiembros(){
+    public Member[] getMiembros(){
 
         SQLiteDatabase db = getReadableDatabase();
 
@@ -243,17 +242,17 @@ public class DBHelper extends SQLiteOpenHelper {
                 orderBy// The sort order
         );
         int length = c.getCount();
-        Miembro[] miembros = new Miembro[length];
+        Member[] miembros = new Member[length];
         for( int i = 0 ; i < length ; i++ ){
             c.moveToNext();
-            Miembro m = new Miembro();
+            Member m = new Member();
             m.id = c.getInt(0);
-            m.nombre = c.getString(1);
-            m.apellidop = c.getString(2);
-            m.apellidom = c.getString(3);
+            m.name = c.getString(1);
+            m.lastNameParent = c.getString(2);
+            m.lastNameMother = c.getString(3);
             m.nickname = c.getString(4);
-            m.cumple = c.getString(5);
-            m.genero = c.getInt(6);
+            m.birthday = c.getString(5);
+            m.gender = c.getInt(6);
             miembros[i]= m;
         }
         c.close();
@@ -261,7 +260,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return miembros;
     }
 
-    public Miembro getMiembro(long id){
+    public Member getMiembro(long id){
 
         SQLiteDatabase db = getReadableDatabase();
         String[] projection = {
@@ -285,65 +284,65 @@ public class DBHelper extends SQLiteOpenHelper {
                 null,                                     // don't filter by row groups
                 null// The sort order
         );
-        Miembro m = null;
+        Member m = null;
         if(c.moveToNext()){
-            m = new Miembro();
+            m = new Member();
             m.id = id;
-            m.nombre = c.getString(0);
-            m.apellidop = c.getString(1);
-            m.apellidom = c.getString(2);
+            m.name = c.getString(0);
+            m.lastNameParent = c.getString(1);
+            m.lastNameMother = c.getString(2);
             m.nickname = c.getString(3);
-            m.cumple = c.getString(4);
-            m.genero = c.getInt(5);
+            m.birthday = c.getString(4);
+            m.gender = c.getInt(5);
         }
         c.close();
         close();
         return m;
     }
 
-    public boolean updateMiembro(Miembro m ) {
+    public boolean updateMiembro(Member m ) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put( DBContract.Member.COL_NICK, m.nickname );
-        values.put(DBContract.Member.COL_NOMBRE, m.nombre);
-        values.put(DBContract.Member.COL_APELLIDOP,m.apellidop);
-        values.put(DBContract.Member.COL_APELLIDOM,m.apellidom);
-        values.put(DBContract.Member.COL_CUMPLE,m.cumple);
-        values.put(DBContract.Member.COL_GENERO,m.genero);
+        values.put(DBContract.Member.COL_NOMBRE, m.name);
+        values.put(DBContract.Member.COL_APELLIDOP,m.lastNameParent);
+        values.put(DBContract.Member.COL_APELLIDOM,m.lastNameMother);
+        values.put(DBContract.Member.COL_CUMPLE,m.birthday);
+        values.put(DBContract.Member.COL_GENERO,m.gender);
         int rows = db.update(DBContract.Member.TABLE , values, DBContract.Member._ID + "=" + m.id , null);
         close();
         return rows == 1;
     }
 
-    public long insertaPaso(Paso paso){
+    public long insertaPaso(Step paso){
         SQLiteDatabase db = getReadableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DBContract.Steps.COL_NOMBRE, paso.nombre );
+        values.put(DBContract.Steps.COL_NOMBRE, paso.name);
         values.put(DBContract.Steps.COL_BASE,paso.base);
-        values.put(DBContract.Steps.COL_CUENTA,paso.cuenta);
-        values.put(DBContract.Steps.COL_DESCRIPCION_FOLLOWER,paso.descripcionFollower);
-        values.put(DBContract.Steps.COL_DESCRIPCION_LIDER,paso.descripcionLider);
-        values.put(DBContract.Steps.COL_PATH,paso.path);
+        values.put(DBContract.Steps.COL_CUENTA,paso.count);
+        values.put(DBContract.Steps.COL_DESCRIPCION_FOLLOWER,paso.descriptionFollower);
+        values.put(DBContract.Steps.COL_DESCRIPCION_LIDER,paso.descriptionLeader);
+        values.put(DBContract.Steps.COL_PATH,paso.videoFilePath);
         long id = db.insert( DBContract.Steps.TABLE, null, values);
         close();
         return id;
     }
 
-    public boolean updatePaso(Paso paso){
+    public boolean updatePaso(Step paso){
         SQLiteDatabase db = getReadableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DBContract.Steps.COL_NOMBRE, paso.nombre );
+        values.put(DBContract.Steps.COL_NOMBRE, paso.name);
         values.put(DBContract.Steps.COL_BASE,paso.base);
-        values.put(DBContract.Steps.COL_CUENTA,paso.cuenta);
-        values.put(DBContract.Steps.COL_DESCRIPCION_FOLLOWER,paso.descripcionFollower);
-        values.put(DBContract.Steps.COL_DESCRIPCION_LIDER,paso.descripcionLider);
-        values.put(DBContract.Steps.COL_PATH,paso.path);
+        values.put(DBContract.Steps.COL_CUENTA,paso.count);
+        values.put(DBContract.Steps.COL_DESCRIPCION_FOLLOWER,paso.descriptionFollower);
+        values.put(DBContract.Steps.COL_DESCRIPCION_LIDER,paso.descriptionLeader);
+        values.put(DBContract.Steps.COL_PATH,paso.videoFilePath);
         int rows = db.update( DBContract.Steps.TABLE, values, DBContract.Steps._ID+"="+paso.id,null);
         close();
         return rows==1;
     }
 
-    public Paso[] getPasos(){
+    public Step[] getPasos(){
 
         SQLiteDatabase db = getReadableDatabase();
 
@@ -372,17 +371,17 @@ public class DBHelper extends SQLiteOpenHelper {
                 orderBy// The sort order
         );
         int length = c.getCount();
-        Paso[] pasos = new Paso[length];
+        Step[] pasos = new Step[length];
         for( int i = 0 ; i < length ; i++ ){
             c.moveToNext();
-            Paso p = new Paso();
+            Step p = new Step();
             p.id = c.getInt(0);
-            p.nombre = c.getString(1);
-            p.cuenta = c.getInt(2);
-            p.path = c.getString(3);
+            p.name = c.getString(1);
+            p.count = c.getInt(2);
+            p.videoFilePath = c.getString(3);
             p.base = c.getString(4);
-            p.descripcionLider = c.getString(5);
-            p.descripcionFollower = c.getString(6);
+            p.descriptionLeader = c.getString(5);
+            p.descriptionFollower = c.getString(6);
             pasos[i]= p;
         }
         c.close();
@@ -390,7 +389,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return pasos;
     }
 
-    public Paso[] getPasosBy(String column,String value,boolean isStringValue){
+    public Step[] getPasosBy(String column, String value, boolean isStringValue){
 
         SQLiteDatabase db = getReadableDatabase();
 
@@ -424,17 +423,17 @@ public class DBHelper extends SQLiteOpenHelper {
                 orderBy// The sort order
         );
         int length = c.getCount();
-        Paso[] pasos = new Paso[length];
+        Step[] pasos = new Step[length];
         for( int i = 0 ; i < length ; i++ ){
             c.moveToNext();
-            Paso p = new Paso();
+            Step p = new Step();
             p.id = c.getInt(0);
-            p.nombre = c.getString(1);
-            p.cuenta = c.getInt(2);
-            p.path = c.getString(3);
+            p.name = c.getString(1);
+            p.count = c.getInt(2);
+            p.videoFilePath = c.getString(3);
             p.base = c.getString(4);
-            p.descripcionLider = c.getString(5);
-            p.descripcionFollower = c.getString(6);
+            p.descriptionLeader = c.getString(5);
+            p.descriptionFollower = c.getString(6);
             pasos[i]= p;
         }
         c.close();
@@ -469,11 +468,11 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public Vector<Paso> getPasosDeLeccion(long id){
+    public Vector<Step> getPasosDeLeccion(long id){
         long[] stepsIds = getPasosDeLeccionIds(id);
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
-        Vector<Paso> pasos = new Vector<>();
+        Vector<Step> pasos = new Vector<>();
         for( long stepId : stepsIds){
             pasos.add(getPaso(stepId));
         }
@@ -482,7 +481,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
-    public Paso getPaso(long id){
+    public Step getPaso(long id){
 
         SQLiteDatabase db = getReadableDatabase();
 
@@ -513,16 +512,16 @@ public class DBHelper extends SQLiteOpenHelper {
                 null// The sort order
         );
 
-        Paso p = null;
+        Step p = null;
            if( c.moveToNext()){
-            p = new Paso();
+            p = new Step();
             p.id = id;
-               p.nombre = c.getString(0);
-            p.cuenta = c.getInt(1);
-            p.path = c.getString(2);
+               p.name = c.getString(0);
+            p.count = c.getInt(1);
+            p.videoFilePath = c.getString(2);
             p.base = c.getString(3);
-            p.descripcionLider = c.getString(4);
-            p.descripcionFollower = c.getString(5);
+            p.descriptionLeader = c.getString(4);
+            p.descriptionFollower = c.getString(5);
 
         }
         c.close();
@@ -530,32 +529,32 @@ public class DBHelper extends SQLiteOpenHelper {
         return p;
     }
 
-    public long insertaSesion(Sesion sesion){
+    public long insertaSesion(Session sesion){
         SQLiteDatabase db = getReadableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DBContract.Sessions.COL_NUMERO, sesion.numero );
-        values.put(DBContract.Sessions.COL_AHORRO, sesion.monto);
-        values.put(DBContract.Sessions.COL_FECHA,sesion.fecha);
-        values.put(DBContract.Sessions.COL_ESCUELA,sesion.escuela);
+        values.put(DBContract.Sessions.COL_NUMERO, sesion.number);
+        values.put(DBContract.Sessions.COL_AHORRO, sesion.amount);
+        values.put(DBContract.Sessions.COL_FECHA,sesion.date);
+        values.put(DBContract.Sessions.COL_ESCUELA,sesion.school);
         long id = db.insert( DBContract.Sessions.TABLE, null, values);
         close();
         return id;
     }
 
-    public boolean updateSesion(Sesion sesion) {
+    public boolean updateSesion(Session sesion) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put( DBContract.Sessions.COL_NUMERO, sesion.numero);
-        values.put(DBContract.Sessions.COL_AHORRO, sesion.monto);
-        values.put(DBContract.Sessions.COL_FECHA,sesion.fecha);
-        values.put(DBContract.Sessions.COL_ESCUELA,sesion.escuela);
+        values.put( DBContract.Sessions.COL_NUMERO, sesion.number);
+        values.put(DBContract.Sessions.COL_AHORRO, sesion.amount);
+        values.put(DBContract.Sessions.COL_FECHA,sesion.date);
+        values.put(DBContract.Sessions.COL_ESCUELA,sesion.school);
         int rows = db.update(DBContract.Sessions.TABLE , values, DBContract.Sessions._ID + "=" + sesion.id , null);
         close();
 
         return rows == 1;
     }
 
-    public Sesion getSesion(long id){
+    public Session getSesion(long id){
 
         SQLiteDatabase db = getReadableDatabase();
         String[] projection = {
@@ -577,21 +576,21 @@ public class DBHelper extends SQLiteOpenHelper {
                 null,                                     // don't filter by row groups
                 null// The sort order
         );
-        Sesion m = null;
+        Session m = null;
         if(c.moveToNext()){
-            m = new Sesion();
+            m = new Session();
             m.id = id;
-            m.numero = c.getInt(0);
-            m.fecha = c.getString(1);
-            m.monto = c.getDouble(2);
-            m.escuela = c.getString(3);
+            m.number = c.getInt(0);
+            m.date = c.getString(1);
+            m.amount = c.getDouble(2);
+            m.school = c.getString(3);
         }
         c.close();
         close();
         return m;
     }
 
-    public Sesion[] getSesiones(){
+    public Session[] getSesiones(){
 
         SQLiteDatabase db = getReadableDatabase();
 
@@ -618,15 +617,15 @@ public class DBHelper extends SQLiteOpenHelper {
                 orderBy// The sort order
         );
         int length = c.getCount();
-        Sesion[] sesiones = new Sesion[length];
+        Session[] sesiones = new Session[length];
         for( int i = 0 ; i < length ; i++ ){
             c.moveToNext();
-            Sesion m = new Sesion();
+            Session m = new Session();
             m.id = c.getInt(0);
-            m.monto = c.getDouble(1);
-            m.fecha = c.getString(2);
-            m.numero = c.getInt(3);
-            m.escuela = c.getString(4);
+            m.amount = c.getDouble(1);
+            m.date = c.getString(2);
+            m.number = c.getInt(3);
+            m.school = c.getString(4);
 
 
             sesiones[i]= m;
@@ -636,7 +635,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return sesiones;
     }
 
-    public Sesion[] getSesionesBy(String escuela){
+    public Session[] getSesionesBy(String escuela){
 
         SQLiteDatabase db = getReadableDatabase();
 
@@ -662,15 +661,15 @@ public class DBHelper extends SQLiteOpenHelper {
                 orderBy// The sort order
         );
         int length = c.getCount();
-        Sesion[] sesiones = new Sesion[length];
+        Session[] sesiones = new Session[length];
         for( int i = 0 ; i < length ; i++ ){
             c.moveToNext();
-            Sesion m = new Sesion();
+            Session m = new Session();
             m.id = c.getInt(0);
-            m.monto = c.getDouble(1);
-            m.fecha = c.getString(2);
-            m.numero = c.getInt(3);
-            m.escuela = escuela;
+            m.amount = c.getDouble(1);
+            m.date = c.getString(2);
+            m.number = c.getInt(3);
+            m.school = escuela;
 
 
             sesiones[i]= m;
@@ -680,24 +679,24 @@ public class DBHelper extends SQLiteOpenHelper {
         return sesiones;
     }
 
-    public long insertaAvance(Avance avance){
+    public long insertaAvance(Progress avance){
         SQLiteDatabase db = getReadableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DBContract.Advance.COL_LECCION, avance.leccion );
-        values.put(DBContract.Advance.COL_MIEMBRO, avance.miembro);
+        values.put(DBContract.Advance.COL_LECCION, avance.lessonId);
+        values.put(DBContract.Advance.COL_MIEMBRO, avance.memberId);
         values.put(DBContract.Advance.COL_ROL,avance.rol);
         long id = db.insert( DBContract.Advance.TABLE, null, values);
         close();
         return id;
     }
 
-    public boolean updateAvance(Avance avance){
+    public boolean updateAvance(Progress avance){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put( DBContract.Advance.COL_ROL, avance.rol );
 
         //Log.i("Avance", DBContract.Advance.COL_LECCION + "=" + avance.leccion +" AND "+DBContract.Advance.COL_MIEMBRO+"="+avance.miembro);
-        int rows = db.update(DBContract.Advance.TABLE , values, DBContract.Advance.COL_LECCION + "=" + avance.leccion +" AND "+DBContract.Advance.COL_MIEMBRO+"="+avance.miembro, null);
+        int rows = db.update(DBContract.Advance.TABLE , values, DBContract.Advance.COL_LECCION + "=" + avance.lessonId +" AND "+DBContract.Advance.COL_MIEMBRO+"="+avance.memberId, null);
         close();
         //Log.i("ROWS",""+rows);
         return rows == 1;
@@ -733,12 +732,12 @@ public class DBHelper extends SQLiteOpenHelper {
                 orderBy// The sort order
         );
         int length = c.getCount();
-        Avance[] avances = new Avance[length];
+        Progress[] avances = new Progress[length];
         for( int i = 0 ; i < length ; i++ ){
             c.moveToNext();
-            Avance m = new Avance();
-            m.miembro = miembroId;
-            m.leccion = c.getInt(0);
+            Progress m = new Progress();
+            m.memberId = miembroId;
+            m.lessonId = c.getInt(0);
             m.rol = c.getInt(1);
 
             avances[i]= m;
@@ -748,7 +747,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return avances.length;
     }
 
-    public Avance[] getAvances(long miembroId){
+    public Progress[] getAvances(long miembroId){
 
         SQLiteDatabase db = getReadableDatabase();
 
@@ -772,12 +771,12 @@ public class DBHelper extends SQLiteOpenHelper {
                 orderBy// The sort order
         );
         int length = c.getCount();
-        Avance[] avances = new Avance[length];
+        Progress[] avances = new Progress[length];
         for( int i = 0 ; i < length ; i++ ){
             c.moveToNext();
-            Avance m = new Avance();
-            m.miembro = miembroId;
-            m.leccion = c.getInt(0);
+            Progress m = new Progress();
+            m.memberId = miembroId;
+            m.lessonId = c.getInt(0);
             m.rol = c.getInt(1);
 
             avances[i]= m;
@@ -787,17 +786,17 @@ public class DBHelper extends SQLiteOpenHelper {
         return avances;
     }
 
-    public long insertaLista(SesionEstudiante lista){
+    public long insertaLista(MemberSession lista){
         SQLiteDatabase db = getReadableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DBContract.AsistanceList.COL_MIEMBRO, lista.miembro );
-        values.put(DBContract.AsistanceList.COL_SESION, lista.sesion);
+        values.put(DBContract.AsistanceList.COL_MIEMBRO, lista.memberId);
+        values.put(DBContract.AsistanceList.COL_SESION, lista.sessionId);
         long id = db.insert( DBContract.AsistanceList.TABLE, null, values);
         close();
         return id;
     }
 
-    public SesionEstudiante[] getListas(){
+    public MemberSession[] getListas(){
         SQLiteDatabase db = getReadableDatabase();
 
         // Define a projection that specifies which columns from the database
@@ -820,13 +819,13 @@ public class DBHelper extends SQLiteOpenHelper {
                 orderBy// The sort order
         );
         int length = c.getCount();
-        SesionEstudiante[] lista = new SesionEstudiante[length];
+        MemberSession[] lista = new MemberSession[length];
 
         for( int i = 0 ; i < length ; i++ ){
             c.moveToNext();
-            lista[i] = new SesionEstudiante();
-            lista[i].miembro = c.getLong(0);
-            lista[i].sesion = c.getLong(1);
+            lista[i] = new MemberSession();
+            lista[i].memberId = c.getLong(0);
+            lista[i].sessionId = c.getLong(1);
         }
         c.close();
         close();
@@ -838,7 +837,7 @@ public class DBHelper extends SQLiteOpenHelper {
      * @param sesionId
      * @return
      */
-    public Miembro[] getListas(long sesionId){
+    public Member[] getListas(long sesionId){
 
         SQLiteDatabase db = getReadableDatabase();
 
@@ -862,7 +861,7 @@ public class DBHelper extends SQLiteOpenHelper {
         );
         int length = c.getCount();
         long[] lista = new long[length];
-        Miembro[] miembros = new Miembro[length];
+        Member[] miembros = new Member[length];
 
         for( int i = 0 ; i < length ; i++ ){
             c.moveToNext();
@@ -874,20 +873,20 @@ public class DBHelper extends SQLiteOpenHelper {
         return miembros;
     }
 
-    public long insertaSecuencia(Secuencia secuencia){
+    public long insertaSecuencia(Sequence secuencia){
         SQLiteDatabase db = getReadableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DBContract.Sequence.COL_LECCION, secuencia.leccion);
+        values.put(DBContract.Sequence.COL_LECCION, secuencia.lessonId);
         values.put(DBContract.Sequence.COL_NAME , secuencia.name);
         long count = db.insert( DBContract.Sequence.TABLE, null, values);
         close();
         return count;
     }
 
-    public boolean updateSecuencia(Secuencia secuencia){
+    public boolean updateSecuencia(Sequence secuencia){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put( DBContract.Sequence.COL_LECCION, secuencia.leccion );
+        values.put( DBContract.Sequence.COL_LECCION, secuencia.lessonId);
         values.put( DBContract.Sequence.COL_NAME, secuencia.name );
 
         //Log.i("Avance", DBContract.Advance.COL_LECCION + "=" + avance.leccion +" AND "+DBContract.Advance.COL_MIEMBRO+"="+avance.miembro);
@@ -899,7 +898,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
 
-    public Secuencia getSecuencia( long secuencia){
+    public Sequence getSecuencia(long secuencia){
 
         SQLiteDatabase db = getReadableDatabase();
 
@@ -925,13 +924,13 @@ public class DBHelper extends SQLiteOpenHelper {
         );
 
 
-        Secuencia s = null;
+        Sequence s = null;
         if(c.moveToNext()){
 
-            s = new Secuencia();
+            s = new Sequence();
 
             s.id = secuencia;
-            s.leccion = c.getLong(0);
+            s.lessonId = c.getLong(0);
             s.name = c.getString(1);
 
         }
@@ -940,7 +939,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return s;
     }
 
-    public Secuencia[] getSecuencias( long leccion){
+    public Sequence[] getSecuencias(long leccion){
 
         SQLiteDatabase db = getReadableDatabase();
 
@@ -966,13 +965,13 @@ public class DBHelper extends SQLiteOpenHelper {
         );
         int length = c.getCount();
 
-        Secuencia[] secuencias = new Secuencia[length];
+        Sequence[] secuencias = new Sequence[length];
         for( int i = 0 ; i < length ; i++ ){
             c.moveToNext();
-            Secuencia s = new Secuencia();
+            Sequence s = new Sequence();
 
             s.id = c.getLong(0);
-            s.leccion = leccion;
+            s.lessonId = leccion;
             s.name = c.getString(1);
 
 
@@ -1118,19 +1117,19 @@ public class DBHelper extends SQLiteOpenHelper {
         return secuencias;
     }
 
-    public long insertaLeccion(Leccion leccion){
+    public long insertaLeccion(Lesson leccion){
         SQLiteDatabase db = getReadableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DBContract.Lesson.COL_NOMBRE, leccion.nombre );
-        values.put(DBContract.Lesson.COL_ESCUELA, leccion.escuela);
-        values.put(DBContract.Lesson.COL_NIVEL, leccion.nivel);
-        values.put(DBContract.Lesson.COL_OBJETIVO, leccion.objetivo);
-        values.put(DBContract.Lesson.COL_DESCRIPCION, leccion.descripcion);
+        values.put(DBContract.Lesson.COL_NOMBRE, leccion.name);
+        values.put(DBContract.Lesson.COL_ESCUELA, leccion.school);
+        values.put(DBContract.Lesson.COL_NIVEL, leccion.level);
+        values.put(DBContract.Lesson.COL_OBJETIVO, leccion.objective);
+        values.put(DBContract.Lesson.COL_DESCRIPCION, leccion.description);
         long id = db.insert( DBContract.Lesson.TABLE, null, values);
         if(id > -1){
-            int pasos = leccion.pasos.size();
+            int pasos = leccion.steps.size();
             for(int i = 0; i < pasos ; i++){
-                insertaPasoLeccion(id,leccion.pasos.elementAt(i).id);
+                insertaPasoLeccion(id,leccion.steps.elementAt(i).id);
             }
         }
         close();
@@ -1146,20 +1145,20 @@ public class DBHelper extends SQLiteOpenHelper {
         close();
     }
 
-    public boolean updateLeccion(Leccion leccion) {
+    public boolean updateLeccion(Lesson leccion) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put( DBContract.Lesson.COL_NOMBRE, leccion.nombre );
-        values.put(DBContract.Lesson.COL_NIVEL, leccion.nivel);
-        values.put(DBContract.Lesson.COL_OBJETIVO,leccion.objetivo);
-        values.put(DBContract.Lesson.COL_ESCUELA,leccion.escuela);
-        values.put(DBContract.Lesson.COL_DESCRIPCION, leccion.descripcion);
+        values.put( DBContract.Lesson.COL_NOMBRE, leccion.name);
+        values.put(DBContract.Lesson.COL_NIVEL, leccion.level);
+        values.put(DBContract.Lesson.COL_OBJETIVO,leccion.objective);
+        values.put(DBContract.Lesson.COL_ESCUELA,leccion.school);
+        values.put(DBContract.Lesson.COL_DESCRIPCION, leccion.description);
         int rows = db.update(DBContract.Lesson.TABLE , values, DBContract.Lesson._ID + "=" + leccion.id , null);
         close();
         deleteStepLessonList(leccion.id);
-        int pasos = leccion.pasos.size();
+        int pasos = leccion.steps.size();
         for(int i = 0; i < pasos ; i++){
-            insertaPasoLeccion(leccion.id,leccion.pasos.elementAt(i).id);
+            insertaPasoLeccion(leccion.id,leccion.steps.elementAt(i).id);
         }
 
         return rows == 1;
@@ -1171,7 +1170,7 @@ public class DBHelper extends SQLiteOpenHelper {
         close();
     }
 
-    public Leccion getLeccion(long id){
+    public Lesson getLeccion(long id){
 
         SQLiteDatabase db = getReadableDatabase();
         String[] projection = {
@@ -1195,24 +1194,24 @@ public class DBHelper extends SQLiteOpenHelper {
                 null,                                     // don't filter by row groups
                 null// The sort order
         );
-        Leccion m = null;
+        Lesson m = null;
         if(c.moveToNext()){
-            m = new Leccion();
+            m = new Lesson();
             m.id = id;
-            m.nombre = c.getString(0);
-            m.objetivo = c.getString(1);
-            m.escuela = c.getString(2);
-            m.nivel = c.getString(3);
-            m.descripcion = c.getString(4);
+            m.name = c.getString(0);
+            m.objective = c.getString(1);
+            m.school = c.getString(2);
+            m.level = c.getString(3);
+            m.description = c.getString(4);
         }
         c.close();
-        m.pasos = getPasosDeLeccion(m.id);
+        m.steps = getPasosDeLeccion(m.id);
 
         close();
         return m;
     }
 
-    public Leccion[] getLeccionesDeEscuela(String escuela){
+    public Lesson[] getLeccionesDeEscuela(String escuela){
 
         SQLiteDatabase db = getReadableDatabase();
 
@@ -1240,16 +1239,16 @@ public class DBHelper extends SQLiteOpenHelper {
         );
         int length = c.getCount();
 
-        Leccion[] lecciones = new Leccion[length];
+        Lesson[] lecciones = new Lesson[length];
 
         for( int i = 0 ; i < length ; i++ ){
             c.moveToNext();
-            Leccion s = new Leccion();
+            Lesson s = new Lesson();
             s.id = c.getInt(0);
-            s.nivel = c.getString(1);
-            s.escuela = escuela;
-            s.nombre = c.getString(2);
-            s.objetivo = c.getString(3);
+            s.level = c.getString(1);
+            s.school = escuela;
+            s.name = c.getString(2);
+            s.objective = c.getString(3);
             lecciones[i]= s;
         }
         c.close();
@@ -1257,7 +1256,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return lecciones;
     }
 
-    public Leccion[] getLecciones(){
+    public Lesson[] getLecciones(){
 
         SQLiteDatabase db = getReadableDatabase();
 
@@ -1286,15 +1285,15 @@ public class DBHelper extends SQLiteOpenHelper {
         );
         int length = c.getCount();
 
-        Leccion[] lecciones = new Leccion[length];
+        Lesson[] lecciones = new Lesson[length];
         for( int i = 0 ; i < length ; i++ ){
             c.moveToNext();
-            Leccion s = new Leccion();
+            Lesson s = new Lesson();
             s.id = c.getInt(0);
-            s.nivel = c.getString(1);
-            s.escuela = c.getString(2);
-            s.nombre = c.getString(3);
-            s.objetivo = c.getString(4);
+            s.level = c.getString(1);
+            s.school = c.getString(2);
+            s.name = c.getString(3);
+            s.objective = c.getString(4);
             lecciones[i]= s;
         }
         c.close();
@@ -1303,14 +1302,14 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void exportar(){
-        Miembro[] miembros = getMiembros();
-        Paso[] pasos = getPasos();
-        Leccion[] lecciones = getLecciones();
+        Member[] miembros = getMiembros();
+        Step[] pasos = getPasos();
+        Lesson[] lecciones = getLecciones();
         //Secuencia[] secuencias = getSecuencias();
-        Sesion[] sesions = getSesiones();
+        Session[] sesions = getSesiones();
 
-        SesionEstudiante[] listas = getListas();
-        Vector<Avance[]> avances = new Vector<>();
+        MemberSession[] listas = getListas();
+        Vector<Progress[]> avances = new Vector<>();
         File dir = new File(Environment.getExternalStorageDirectory() + "/jamarte");
         if(!dir.exists())
             dir.mkdir();
@@ -1319,29 +1318,29 @@ public class DBHelper extends SQLiteOpenHelper {
             PrintWriter writer = new PrintWriter(new FileWriter(f));
 
             //Backup miembros
-            for (Miembro m : miembros) {
+            for (Member m : miembros) {
                 avances.add(getAvances(m.id));
-                writer.println(DBContract.Member.TABLE + "\t" + m.id + "\t" + m.nickname + "\t" + m.nombre + "\t" + m.apellidop + "\t" + m.apellidom + "\t" + m.cumple + "\t" + m.genero + "\r\n");
+                writer.println(DBContract.Member.TABLE + "\t" + m.id + "\t" + m.nickname + "\t" + m.name + "\t" + m.lastNameParent + "\t" + m.lastNameMother + "\t" + m.birthday + "\t" + m.gender + "\r\n");
             }
 
             //Backup pasos
             for( int i = 0 ; i < pasos.length ; i++ ) {
-                Paso p = pasos[i];
-                writer.println(DBContract.Steps.TABLE+"\t"+p.id+"\t"+p.nombre+"\t"+p.cuenta+"\t"+p.base+"\t"+p.path+"\t"+p.descripcionFollower+"\t"+p.descripcionLider+"\r\n");
+                Step p = pasos[i];
+                writer.println(DBContract.Steps.TABLE+"\t"+p.id+"\t"+p.name +"\t"+p.count +"\t"+p.base+"\t"+p.videoFilePath +"\t"+p.descriptionFollower +"\t"+p.descriptionLeader +"\r\n");
             }
 
             //Backup lecciones
             for( int i = 0 ; i < lecciones.length ; i++ ) {
-                Leccion l = lecciones[i];
-                writer.println(DBContract.Lesson.TABLE+"\t"+l.id+"\t"+l.nombre+"\t"+l.escuela+"\t"+l.nivel+"\t"+l.objetivo+"\t"+l.descripcion+"\r\n");
+                Lesson l = lecciones[i];
+                writer.println(DBContract.Lesson.TABLE+"\t"+l.id+"\t"+l.name +"\t"+l.school +"\t"+l.level +"\t"+l.objective +"\t"+l.description +"\r\n");
             }
 
             //Backup Lista de Pasos Leccion
             for( int i = 0 ; i < lecciones.length ; i++ ) {
-                Leccion l = lecciones[i];
-                int length = l.pasos.size();
+                Lesson l = lecciones[i];
+                int length = l.steps.size();
                 for(int j = 0 ; j < length ; j++){
-                    Paso p = l.pasos.elementAt(j);
+                    Step p = l.steps.elementAt(j);
                     writer.println(DBContract.LessonStepList.TABLE+"\t"+l.id+"\t"+p.id+"\r\n");
                 }
             }
@@ -1349,24 +1348,24 @@ public class DBHelper extends SQLiteOpenHelper {
             //Backup Avances
             int length = avances.size();
             for( int i = 0 ; i < length ; i++ ) {
-                Avance[] as = avances.elementAt(i);
+                Progress[] as = avances.elementAt(i);
                 for(int j = 0 ; j < as.length ; j++){
-                    Avance a = as[j];
-                    writer.println(DBContract.Advance.TABLE+"\t"+a.miembro+"\t"+a.leccion+"\t"+a.rol+"\r\n");
+                    Progress a = as[j];
+                    writer.println(DBContract.Advance.TABLE+"\t"+a.memberId +"\t"+a.lessonId +"\t"+a.rol+"\r\n");
                 }
 
             }
 
             //Backup Sesiones
             for( int i = 0 ; i < sesions.length ; i++ ) {
-                Sesion s = sesions[i];
-                writer.println(DBContract.Sessions.TABLE+"\t"+s.id+"\t"+s.numero+"\t"+s.monto+"\t"+s.fecha+"\t"+s.escuela+"\r\n");
+                Session s = sesions[i];
+                writer.println(DBContract.Sessions.TABLE+"\t"+s.id+"\t"+s.number +"\t"+s.amount +"\t"+s.date +"\t"+s.school +"\r\n");
             }
 
             //Backup Lista de Asistencia
             for( int i = 0 ; i < listas.length ; i++ ) {
-                SesionEstudiante s = listas[i];
-                writer.println(DBContract.AsistanceList.TABLE+"\t"+s.miembro+"\t"+s.sesion+"\r\n");
+                MemberSession s = listas[i];
+                writer.println(DBContract.AsistanceList.TABLE+"\t"+s.memberId +"\t"+s.sessionId +"\r\n");
             }
 
 
@@ -1383,7 +1382,7 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Avance[] getListaAvances(String school,long miembro_id){
+    public Progress[] getListaAvances(String school, long miembro_id){
         SQLiteDatabase db = getReadableDatabase();
 
         // Define a projection that specifies which columns from the database
@@ -1411,13 +1410,13 @@ public class DBHelper extends SQLiteOpenHelper {
                 orderBy// The sort order
         );
         int length = c.getCount();
-        Avance[] avances = new Avance[length];
+        Progress[] avances = new Progress[length];
         for( int i = 0 ; i < length ; i++ ){
             c.moveToNext();
-            Avance a = new Avance();
+            Progress a = new Progress();
             //a.id = c.getInt(6);
-            a.leccion = c.getInt(2);
-            a.miembro = c.getInt(0);
+            a.lessonId = c.getInt(2);
+            a.memberId = c.getInt(0);
             a.rol = c.getInt(6);
             avances[i]= a;
             //Log.i("Avance",a.toString());
