@@ -71,9 +71,9 @@
         <activity
             android:name=".forms.NewLesson"
             android:label="@string/strLeccion"
-            android:parentActivityName=".Lecciones" />
+            android:parentActivityName=".Lessons" />
         <activity
-            android:name=".Lecciones"
+            android:name=".Lessons"
             android:label="@string/strLecciones"
             android:parentActivityName=".MainActivity" />
         <activity

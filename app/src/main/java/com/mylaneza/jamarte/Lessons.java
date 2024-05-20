@@ -23,12 +23,10 @@ import com.mylaneza.jamarte.forms.NewLesson;
 
 
 
-public class Lecciones extends AppCompatActivity implements AdapterView.OnItemClickListener {
-
+public class Lessons extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     ListView list;
-    Lesson[] lecciones;
-    //ActivityResultLauncher<Intent> arl;
+    Lesson[] lessons;
 
     String query;
     @Override
@@ -39,15 +37,17 @@ public class Lecciones extends AppCompatActivity implements AdapterView.OnItemCl
         SharedPreferences sp = getSharedPreferences("com.mylaneza.jamarte.PREFERENCIAS",MODE_PRIVATE);
         query = sp.getString("com.mylaneza.jamarte.SP_LECCION_ESCUELA",null);
 
-        DBHelper db = new DBHelper(this);
-        if(query == null)
-            lecciones = db.getLecciones();
-        else if(!query.equals("Todos"))
-            lecciones = db.getLeccionesDeEscuela(query);
-        else
-            lecciones = db.getLecciones();
-        list.setAdapter(new LessonsAdapter(this,lecciones));
-        list.setOnItemClickListener(this);
+        try(DBHelper db = new DBHelper(this)){
+            if(query == null)
+                lessons = db.getLecciones();
+            else if(!query.equals("Todos"))
+                lessons = db.getLeccionesDeEscuela(query);
+            else
+                lessons = db.getLecciones();
+            list.setAdapter(new LessonsAdapter(this, lessons));
+            list.setOnItemClickListener(this);
+        }
+
 
         /* Activity Register */
          /*arl = registerForActivityResult(
@@ -96,7 +96,7 @@ public class Lecciones extends AppCompatActivity implements AdapterView.OnItemCl
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Lesson lesson = lecciones[i];
+        Lesson lesson = lessons[i];
         Intent intent = new Intent(this, NewLesson.class);
         intent.putExtra("com.mylaneza.jamarte.ID",lesson.id);
         startActivityForResult( intent,0);
@@ -110,40 +110,42 @@ public class Lecciones extends AppCompatActivity implements AdapterView.OnItemCl
         super.onActivityResult(requestCode,resultCode,data);
         if(resultCode == RESULT_OK){
             if(requestCode == 0) { //Opcion de cambio de escuela
-                DBHelper db = new DBHelper(this);
-                if(query == null)
-                    lecciones = db.getLecciones();
-                else if(!query.equals("Todos"))
-                    lecciones = db.getLeccionesDeEscuela(query);
-                else
-                    lecciones = db.getLecciones();
-                LessonsAdapter ap = (LessonsAdapter) list.getAdapter();
-                ap.lessons = lecciones;
-                ap.notifyDataSetChanged();
-            }else{
-                //Regresa de nueva Leccion
-                String escuela = data.getStringExtra("com.mylaneza.jamarte.OPCION");
-                DBHelper db = new DBHelper(this);
-                SharedPreferences sp = getSharedPreferences("com.mylaneza.jamarte.PREFERENCIAS",MODE_PRIVATE);
-                SharedPreferences.Editor  editor = sp.edit();
-                editor.putString("com.mylaneza.jamarte.SP_LECCION_ESCUELA",escuela);
-                editor.commit();
-                if(escuela != null && !"Todos".equals(escuela)){
-                    Lesson[] lecciones = db.getLeccionesDeEscuela(escuela);
-                    if(lecciones.length > 0){
-                        this.lecciones = lecciones;
-                        LessonsAdapter ap = (LessonsAdapter) list.getAdapter();
-                        ap.lessons = this.lecciones;
-                        ap.notifyDataSetChanged();
-                    }else{
-                        Toast.makeText(this,"No se encontraron sesiones para esa escuela.",Toast.LENGTH_SHORT).show();
-                    }
-                }else{
-                    this.lecciones = db.getLecciones();
+                try(DBHelper db = new DBHelper(this)){
+                    if(query == null)
+                        lessons = db.getLecciones();
+                    else if(!query.equals("Todos"))
+                        lessons = db.getLeccionesDeEscuela(query);
+                    else
+                        lessons = db.getLecciones();
                     LessonsAdapter ap = (LessonsAdapter) list.getAdapter();
-                    ap.lessons = this.lecciones;
+                    ap.lessons = lessons;
                     ap.notifyDataSetChanged();
                 }
+            }else{
+                String school = data.getStringExtra("com.mylaneza.jamarte.OPCION");
+                try(DBHelper db = new DBHelper(this)){
+                    SharedPreferences sp = getSharedPreferences("com.mylaneza.jamarte.PREFERENCIAS",MODE_PRIVATE);
+                    SharedPreferences.Editor  editor = sp.edit();
+                    editor.putString("com.mylaneza.jamarte.SP_LECCION_ESCUELA",school);
+                    editor.apply();
+                    if(school != null && !"Todos".equals(school)){
+                        Lesson[] lessons = db.getLeccionesDeEscuela(school);
+                        if(lessons.length > 0){
+                            this.lessons = lessons;
+                            LessonsAdapter ap = (LessonsAdapter) list.getAdapter();
+                            ap.lessons = this.lessons;
+                            ap.notifyDataSetChanged();
+                        }else{
+                            Toast.makeText(this,"No se encontraron sesiones para esa escuela.",Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        this.lessons = db.getLecciones();
+                        LessonsAdapter ap = (LessonsAdapter) list.getAdapter();
+                        ap.lessons = this.lessons;
+                        ap.notifyDataSetChanged();
+                    }
+                }
+
 
             }
         }

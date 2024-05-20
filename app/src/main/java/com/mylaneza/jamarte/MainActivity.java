@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     }
     
     public void lecciones(View v){
-        Intent i = new Intent(this,Lecciones.class);
+        Intent i = new Intent(this, Lessons.class);
         startActivity(i);
     }
 
