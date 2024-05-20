@@ -84,7 +84,7 @@
             android:theme="@style/Theme.MaterialComponents.DayNight.Dialog" />
         <activity android:name=".SecuenciaPasos"
             android:label="@string/strPasosSecuencia"/>
-        <activity android:name=".forms.NewSecuenciaPaso"
+        <activity android:name=".forms.NewStepInSequence"
             android:label="@string/strPaso"></activity>
     </application>
 

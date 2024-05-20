@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.mylaneza.jamarte.adapters.StepInSequenceAdapter;
 import com.mylaneza.jamarte.database.DBHelper;
 import com.mylaneza.jamarte.entities.StepInSequence;
-import com.mylaneza.jamarte.forms.NewSecuenciaPaso;
+import com.mylaneza.jamarte.forms.NewStepInSequence;
 
 
 
@@ -57,14 +57,14 @@ public class SecuenciaPasos extends AppCompatActivity implements AdapterView.OnI
     }
 
     public void openNewSecuenciaPaso(View v){
-        Intent intent = new Intent(this, NewSecuenciaPaso.class);
+        Intent intent = new Intent(this, NewStepInSequence.class);
         intent.putExtra("com.mylaneza.jamarte.SECUENCIA", id);
         startActivityForResult(intent,0);
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Intent intent = new Intent(this, NewSecuenciaPaso.class);
+        Intent intent = new Intent(this, NewStepInSequence.class);
         intent.putExtra("com.mylaneza.jamarte.ID", pasos[i].id);
         startActivityForResult(intent,0);
     }
