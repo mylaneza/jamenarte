@@ -20,14 +20,14 @@
         </activity>
 
         <activity
-            android:name=".Miembros"
+            android:name=".Members"
             android:label="@string/strMiembros"
             android:parentActivityName=".MainActivity" />
 
         <activity
             android:name=".ProgressScreen"
             android:label="@string/strAvances"
-            android:parentActivityName=".Miembros" />
+            android:parentActivityName=".Members" />
         <activity
             android:name=".Steps"
             android:label="@string/strPasos"
@@ -63,7 +63,7 @@
         <activity
             android:name=".forms.NewMember"
             android:label="@string/strMiembro"
-            android:parentActivityName=".Miembros" />
+            android:parentActivityName=".Members" />
         <activity
             android:name=".forms.NewSequence"
             android:label="@string/strSecuencia"

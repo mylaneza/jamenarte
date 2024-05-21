@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void members(View v){
-        Intent i = new Intent(this, Miembros.class);
+        Intent i = new Intent(this, Members.class);
         startActivity(i);
     }
 
