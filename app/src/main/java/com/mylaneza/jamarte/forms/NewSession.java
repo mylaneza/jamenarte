@@ -14,7 +14,7 @@ import com.mylaneza.jamarte.database.DBHelper;
 
 import com.mylaneza.jamarte.R;
 import com.mylaneza.jamarte.entities.Session;
-import com.mylaneza.jamarte.SesionesEstudiantes;
+import com.mylaneza.jamarte.AssistanceList;
 
 
 public class NewSession extends AppCompatActivity {
@@ -95,7 +95,7 @@ public class NewSession extends AppCompatActivity {
     public void goToAssistanceList(View v){
 
         if(id > -1){
-            Intent i = new Intent(this, SesionesEstudiantes.class);
+            Intent i = new Intent(this, AssistanceList.class);
             i.putExtra("com.mylaneza.jamarte.ID",id);
             startActivity(i);
         }else{

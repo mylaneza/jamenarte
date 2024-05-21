@@ -37,7 +37,7 @@
             android:label="@string/strSesiones"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".SesionesEstudiantes"
+            android:name=".AssistanceList"
             android:parentActivityName=".MainActivity"
             />
         <activity
@@ -54,7 +54,7 @@
         <activity
             android:name=".forms.NewAssistanceList"
             android:label="@string/strNuevoAsistente"
-            android:parentActivityName=".SesionesEstudiantes"
+            android:parentActivityName=".AssistanceList"
             android:theme="@style/Theme.AppCompat.Dialog" />
         <activity
             android:name=".forms.NewSession"

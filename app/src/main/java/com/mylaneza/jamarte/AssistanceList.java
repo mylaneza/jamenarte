@@ -10,6 +10,8 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.mylaneza.jamarte.adapters.MembersAdapter;
 import com.mylaneza.jamarte.database.DBHelper;
@@ -18,20 +20,19 @@ import com.mylaneza.jamarte.entities.Session;
 import com.mylaneza.jamarte.forms.NewAssistanceList;
 
 import java.util.Vector;
-import android.util.Log;
 
-public class SesionesEstudiantes extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener/*, PopupMenu.OnMenuItemClickListener*/ {
+public class AssistanceList extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener/*, PopupMenu.OnMenuItemClickListener*/ {
     //Haber
-    Member[] lista;
+    Member[] membersList;
     GridView list;
     long id;
-    Session sesion;
+    Session session;
     long selectedMember;
     Member nacho;
 
 
-    Vector<Member> followers = new Vector<Member>();
-    Vector<Member> lideres = new Vector<Member>();
+    Vector<Member> followers = new Vector<>();
+    Vector<Member> leaders = new Vector<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,18 +44,18 @@ public class SesionesEstudiantes extends AppCompatActivity implements AdapterVie
 
         id = getIntent().getLongExtra("com.mylaneza.jamarte.ID",-1);
         if(id == -1){
-            Toast.makeText(this,"Esta sesion no existe.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Session does not exist", Toast.LENGTH_SHORT).show();
             finish();
         }else{
-            sesion = db.getSesion(id);
-            setTitle(sesion.school +" "+sesion.number);
+            session = db.getSesion(id);
+            setTitle(session.school +" "+ session.number);
         }
-        lista = actualizaLista(db);
+        membersList = updateList(db);
         TextView totalTextView = findViewById(R.id.seTotal);
-        totalTextView.setText("Total:"+lista.length);
-        quickSort(lista, 0 , lista.length-1);
-        //asignaParejas();
-        list.setAdapter(new MembersAdapter(this,lista));
+        totalTextView.setText(getString(R.string.strTotal,membersList.length));
+        quickSort(membersList, 0 , membersList.length-1);
+        //setCouples();
+        list.setAdapter(new MembersAdapter(this, membersList));
         list.setOnItemClickListener(this);
 
     }
@@ -62,7 +63,6 @@ public class SesionesEstudiantes extends AppCompatActivity implements AdapterVie
     private void quickSort(Member[] arr, int low, int high) {
         if(low < high){
             int pi = partition(arr,low,high);
-            Log.i("Partition Index",""+pi);
             quickSort(arr,low,pi-1);
             quickSort(arr,pi+1, high);
         }
@@ -85,69 +85,68 @@ public class SesionesEstudiantes extends AppCompatActivity implements AdapterVie
         return i + 1;
     }
 
-    private Member[] actualizaLista(DBHelper db){
-        Member[] lista = db.getListas(id);
-        for(Member miembro : lista)
-            miembro.progressByGender = db.getTotalAvancesGenero(miembro.id,miembro.gender);
-        return lista;
+    private Member[] updateList(DBHelper db){
+        Member[] list = db.getListas(id);
+        for(Member member : list)
+            member.progressByGender = db.getTotalAvancesGenero(member.id,member.gender);
+        return list;
     }
 
-    private void asignaParejas(){
-        Vector<Member> mushashas = new Vector<Member>();
-        Vector<Member> mushashos = new Vector<Member>();
+    private void setCouples(){
+        Vector<Member> women = new Vector<>();
+        Vector<Member> men = new Vector<>();
 
-        for(int i = 0 ; i < lista.length ; i++){
-            if(lista[i].gender == 0) {
-                mushashos.add(lista[i]);
-            }else {
-                mushashas.add(lista[i]);
+        for (Member member : membersList) {
+            if (member.gender == 0) {
+                men.add(member);
+            } else {
+                women.add(member);
             }
         }
 
-        boolean sobra = false;
-        if((lista.length % 2) != 0){
-            //sobra una persona
-            sobra = true;
-            remueveNacho(mushashos);
+        boolean extra = false;
+        if((membersList.length % 2) != 0){
+            extra = true;
+            removeTeacher(men);
         }
-        ordenaLista(mushashos,mushashas,sobra);
+        sortList(men,women,extra);
     }
 
-    private void ordenaLista(Vector<Member> mushashos, Vector<Member> mushashas, boolean sobra){
-        int cuantasMushashas = mushashas.size();
-        int cuantosMushashos = mushashos.size();
+    private void sortList(Vector<Member> men, Vector<Member> women, boolean extra){
+        int womenCount = women.size();
+        int menCount = men.size();
 
-        if(cuantosMushashos > cuantasMushashas){
+        if(menCount > womenCount){
 
-        }else if(cuantasMushashas > cuantosMushashos){
+        }else if(womenCount > menCount){
 
         }else{
-            for(int i = 0 ; i < cuantosMushashos ; i++){
-                lista[i] = mushashos.elementAt(i);
-                lista[i+1] = mushashas.elementAt(i);
+            for(int i = 0 ; i < menCount ; i++){
+                membersList[i] = men.elementAt(i);
+                membersList[i+1] = women.elementAt(i);
             }
         }
 
-        if(sobra){
-            lista[lista.length-1] = nacho;
+        if(extra){
+            membersList[membersList.length-1] = nacho;
         }
     }
 
-    private void remueveNacho(Vector<Member> mushashos){
-        int length = mushashos.size();
+    private void removeTeacher(Vector<Member> men){
+        int length = men.size();
         for(int i = 0 ; i < length ; i++ ){
-            if("Nacho".equals(mushashos.elementAt(i).nickname)){
-                nacho = mushashos.remove(i);
+            if("Nacho".equals(men.elementAt(i).nickname)){
+                nacho = men.remove(i);
                 return;
             }
         }
     }
 
-    private void rotanLideres(){
+    private void changeLeaders(){
 
     }
 
-    private void rotanFollowers(){
+    private void changeFollowers(){
 
     }
 
@@ -158,9 +157,9 @@ public class SesionesEstudiantes extends AppCompatActivity implements AdapterVie
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
         /*if( item.getItemId() == R.id.item_new ){
-            Intent intent = new Intent(this, NewLista.class);
+            Intent intent = new Intent(this, NewAssistanceList.class);
             intent.putExtra("com.mylaneza.jamarte.ID",id);
             startActivityForResult(intent,0);
             return true;
@@ -170,14 +169,13 @@ public class SesionesEstudiantes extends AppCompatActivity implements AdapterVie
 
 
 
-    public void openNewLista(View v){
+    public void openNewAssistanceList(View v){
         Intent intent = new Intent(this, NewAssistanceList.class);
-        //ID de la sesion
         intent.putExtra("com.mylaneza.jamarte.ID",id);
-        //Agregar la lista de participantes ya agregados a la lista
-        long[] list_ids = new long[lista.length];
-        for(int i = 0; i < lista.length ; i++){
-            list_ids[i] = lista[i].id;
+
+        long[] list_ids = new long[membersList.length];
+        for(int i = 0; i < membersList.length ; i++){
+            list_ids[i] = membersList[i].id;
         }
         intent.putExtra("com.mylaneza.jamarte.LIST_IDS",list_ids);
         startActivityForResult(intent,0);
@@ -185,8 +183,8 @@ public class SesionesEstudiantes extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        selectedMember = lista[i].id;
-        //Toast.makeText(this,lista[i].nickname,Toast.LENGTH_SHORT).show();
+        selectedMember = membersList[i].id;
+        //Toast.makeText(this,list[i].nickname,Toast.LENGTH_SHORT).show();
         //DBHelper db = new DBHelper(this);
         /*PopupMenu popup = new PopupMenu(this, view);
         MenuInflater inflater = popup.getMenuInflater();
@@ -195,7 +193,7 @@ public class SesionesEstudiantes extends AppCompatActivity implements AdapterVie
         popup.show();*/
 
         Intent intent = new Intent(this, ProgressScreen.class);
-        intent.putExtra("com.mylaneza.jamarte.ID",lista[i].id);
+        intent.putExtra("com.mylaneza.jamarte.ID", membersList[i].id);
         startActivityForResult(intent, 0);
 
     }
@@ -204,16 +202,18 @@ public class SesionesEstudiantes extends AppCompatActivity implements AdapterVie
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode,resultCode,data);
         if(resultCode == RESULT_OK ) {
-            DBHelper db = new DBHelper(this);
-            lista = db.getListas(id);
+            try(DBHelper db = new DBHelper(this)){
+                membersList = db.getListas(id);
 
-            TextView totalTextView = findViewById(R.id.seTotal);
-            totalTextView.setText("Total:"+lista.length);
-            
-            quickSort(lista, 0 , lista.length-1);
-            MembersAdapter ap = (MembersAdapter) list.getAdapter();
-            ap.members = lista;
-            ap.notifyDataSetChanged();
+                TextView totalTextView = findViewById(R.id.seTotal);
+                totalTextView.setText(getString(R.string.strTotal,membersList.length));
+
+                quickSort(membersList, 0 , membersList.length-1);
+                MembersAdapter ap = (MembersAdapter) list.getAdapter();
+                ap.members = membersList;
+                ap.notifyDataSetChanged();
+            }
+
         }
     }
 
@@ -232,7 +232,7 @@ public class SesionesEstudiantes extends AppCompatActivity implements AdapterVie
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.seNewMember){
-            openNewLista(v);
+            openNewAssistanceList(v);
         }
     }
 }
