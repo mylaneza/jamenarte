@@ -11,7 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mylaneza.jamarte.R;
-import com.mylaneza.jamarte.SecuenciaPasos;
+import com.mylaneza.jamarte.StepsInSequence;
 
 import com.mylaneza.jamarte.database.DBHelper;
 
@@ -54,7 +54,7 @@ public class NewSequence extends AppCompatActivity {
 
     public void steps(View v){
         if(id > -1) {
-            Intent intent = new Intent(this, SecuenciaPasos.class);
+            Intent intent = new Intent(this, StepsInSequence.class);
             intent.putExtra("com.mylaneza.jamarte.ID", id);
             startActivity(intent);
         }else{

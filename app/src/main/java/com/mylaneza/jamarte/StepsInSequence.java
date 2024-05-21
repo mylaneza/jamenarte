@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.mylaneza.jamarte.adapters.StepInSequenceAdapter;
@@ -19,12 +20,12 @@ import com.mylaneza.jamarte.forms.NewStepInSequence;
 
 
 
-public class SecuenciaPasos extends AppCompatActivity implements AdapterView.OnItemClickListener{
+public class StepsInSequence extends AppCompatActivity implements AdapterView.OnItemClickListener{
 
     ListView sp;
     long id;
 
-    StepInSequence pasos[];
+    StepInSequence[] steps;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,11 +33,11 @@ public class SecuenciaPasos extends AppCompatActivity implements AdapterView.OnI
         sp = findViewById(R.id.listSecuenciaPaso);
         id = getIntent().getLongExtra("com.mylaneza.jamarte.ID",-1);
 
-        DBHelper db = new DBHelper(this);
-        pasos = db.getPasosDeSecuencia(id);
-        sp.setAdapter(new StepInSequenceAdapter(this,pasos));
-        sp.setOnItemClickListener(this);
-
+        try(DBHelper db = new DBHelper(this)){
+            steps = db.getPasosDeSecuencia(id);
+            sp.setAdapter(new StepInSequenceAdapter(this, steps));
+            sp.setOnItemClickListener(this);
+        }
     }
 
     @Override
@@ -46,17 +47,11 @@ public class SecuenciaPasos extends AppCompatActivity implements AdapterView.OnI
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        /*if( item.getItemId() == R.id.item_new ){
-            Intent intent = new Intent(this, NewSecuenciaPaso.class);
-            intent.putExtra("com.mylaneza.jamarte.SECUENCIA", id);
-            startActivityForResult(intent,0);
-            return true;
-        }else*/
-            return false;
+    public boolean onOptionsItemSelected(@NonNull MenuItem item){
+        return false;
     }
 
-    public void openNewSecuenciaPaso(View v){
+    public void openNewStepInSequence(View v){
         Intent intent = new Intent(this, NewStepInSequence.class);
         intent.putExtra("com.mylaneza.jamarte.SECUENCIA", id);
         startActivityForResult(intent,0);
@@ -65,7 +60,7 @@ public class SecuenciaPasos extends AppCompatActivity implements AdapterView.OnI
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         Intent intent = new Intent(this, NewStepInSequence.class);
-        intent.putExtra("com.mylaneza.jamarte.ID", pasos[i].id);
+        intent.putExtra("com.mylaneza.jamarte.ID", steps[i].id);
         startActivityForResult(intent,0);
     }
 }

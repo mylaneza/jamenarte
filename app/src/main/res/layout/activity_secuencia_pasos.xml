@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.mylaneza.jamarte.SecuenciaPasos">
+    tools:context="com.mylaneza.jamarte.StepsInSequence">
 
     <ListView
         android:layout_width="match_parent"
@@ -22,6 +22,6 @@
     android:layout_alignParentEnd="true"
     android:layout_alignParentRight="true"
     android:contentDescription="@string/addbutton"
-    android:onClick="openNewSecuenciaPaso"/>
+    android:onClick="openNewStepInSequence"/>
 
 </RelativeLayout>
