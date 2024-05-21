@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.mylaneza.jamarte.Sesiones">
+    tools:context="com.mylaneza.jamarte.Sessions">
 
     <TextView
         android:layout_width="match_parent"
@@ -35,6 +35,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:contentDescription="@string/addbutton"
-        android:onClick="openNewSesion"/>
+        android:onClick="openNewSession"/>
 
 </RelativeLayout>

@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sessions(View v){
-        Intent i = new Intent(this, Sesiones.class);
+        Intent i = new Intent(this, Sessions.class);
         startActivity(i);
     }
 

@@ -33,7 +33,7 @@
             android:label="@string/strPasos"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".Sesiones"
+            android:name=".Sessions"
             android:label="@string/strSesiones"
             android:parentActivityName=".MainActivity" />
         <activity
@@ -59,7 +59,7 @@
         <activity
             android:name=".forms.NewSession"
             android:label="@string/strSesion"
-            android:parentActivityName=".Sesiones" />
+            android:parentActivityName=".Sessions" />
         <activity
             android:name=".forms.NewMember"
             android:label="@string/strMiembro"

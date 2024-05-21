@@ -20,46 +20,44 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.mylaneza.jamarte.adapters.SessionsAdapter;
 import com.mylaneza.jamarte.database.DBHelper;
-import com.mylaneza.jamarte.entities.Session;
 
+import com.mylaneza.jamarte.entities.Session;
 import com.mylaneza.jamarte.forms.NewSession;
 
-public class Sesiones extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class Sessions extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    Session[] sesiones;
+    Session[] sessions;
     GridView list;
-    TextView monto;
+    TextView amount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sesiones);
-        list = (GridView) findViewById(R.id.listSesiones);
-        monto = (TextView) findViewById(R.id.montoTotal);
+        list = findViewById(R.id.listSesiones);
+        amount =  findViewById(R.id.montoTotal);
         SharedPreferences sp = getSharedPreferences("com.mylaneza.jamarte.PREFERENCIAS",MODE_PRIVATE);
         String query = sp.getString("com.mylaneza.jamarte.SP_SESION_ESCUELA",null);
 
-        DBHelper db = new DBHelper(this);
-        if(query == null ){
-            sesiones = db.getSesiones();
-        }else if(!query.equals("Todos") ){
-            sesiones = db.getSesionesBy(query);
-        }else{
-            sesiones = db.getSesiones();
+        try(DBHelper db = new DBHelper(this)){
+            if(query == null ){
+                sessions = db.getSesiones();
+            }else if(!query.equals("Todos") ){
+                sessions = db.getSesionesBy(query);
+            }else{
+                sessions = db.getSesiones();
+            }
         }
-
-        calculaTotal();
-
-        list.setAdapter(new SessionsAdapter(this,sesiones));
+        calculateTotal();
+        list.setAdapter(new SessionsAdapter(this, sessions));
         list.setOnItemClickListener(this);
-
     }
 
-    private void calculaTotal(){
+    private void calculateTotal(){
         int total = 0;
-        for( int i = 0 ; i < sesiones.length ; i++){
-            total+=(int)sesiones[i].amount;
+        for (Session session : sessions) {
+            total += (int) session.amount;
         }
-        monto.setText("Monto total $"+total);
+        amount.setText(getString(R.string.strTotal,total));
     }
 
     @Override
@@ -71,10 +69,7 @@ public class Sesiones extends AppCompatActivity implements AdapterView.OnItemCli
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         int itemId = item.getItemId();
-        /*if( itemId == R.id.item_new ){
-            startActivityForResult(new Intent(this, NewSesion.class),0);
-            return true;
-        }else*/ if(itemId == R.id.item_query){
+        if(itemId == R.id.item_query){
             Intent i = new Intent(this,QueryAct.class);
             i.putExtra("com.mylaneza.jamarte.PARENT",0);
             startActivityForResult(i,1);
@@ -84,13 +79,13 @@ public class Sesiones extends AppCompatActivity implements AdapterView.OnItemCli
         }
     }
 
-    public void openNewSesion(View v){
+    public void openNewSession(View v){
         startActivityForResult(new Intent(this, NewSession.class),0);
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        Session p = sesiones[i];
+        com.mylaneza.jamarte.entities.Session p = sessions[i];
         Intent intent = new Intent(this, NewSession.class);
         intent.putExtra("com.mylaneza.jamarte.ID",p.id);
         startActivityForResult( intent, 0 );
@@ -100,26 +95,27 @@ public class Sesiones extends AppCompatActivity implements AdapterView.OnItemCli
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode,resultCode,data);
         if(resultCode == RESULT_OK){
-            DBHelper db = new DBHelper(this);
-            SharedPreferences sp = getSharedPreferences("com.mylaneza.jamarte.PREFERENCIAS", MODE_PRIVATE);
-            if(requestCode == 0){ //NewSession
-                String query = sp.getString("com.mylaneza.jamarte.SP_SESION_ESCUELA", null);
-                sesiones = db.getSesionesBy(query);
-            }else{ //QueryAct
-                String escuela = data.getStringExtra("com.mylaneza.jamarte.OPCION");
-                SharedPreferences.Editor  editor = sp.edit();
-                editor.putString("com.mylaneza.jamarte.SP_SESION_ESCUELA",escuela);
-                editor.commit();
-                if(escuela != null && !"Todos".equals(escuela)){
-                    this.sesiones = db.getSesionesBy(escuela);
-                }else{
-                    this.sesiones = db.getSesiones();
+            try(DBHelper db = new DBHelper(this)) {
+                SharedPreferences sp = getSharedPreferences("com.mylaneza.jamarte.PREFERENCIAS", MODE_PRIVATE);
+                if (requestCode == 0) { //NewSession
+                    String query = sp.getString("com.mylaneza.jamarte.SP_SESION_ESCUELA", null);
+                    sessions = db.getSesionesBy(query);
+                } else { //QueryAct
+                    String escuela = data.getStringExtra("com.mylaneza.jamarte.OPCION");
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("com.mylaneza.jamarte.SP_SESION_ESCUELA", escuela);
+                    editor.apply();
+                    if (escuela != null && !"Todos".equals(escuela)) {
+                        this.sessions = db.getSesionesBy(escuela);
+                    } else {
+                        this.sessions = db.getSesiones();
+                    }
                 }
             }
             SessionsAdapter ap = (SessionsAdapter) list.getAdapter();
-            ap.sessions = sesiones;
+            ap.sessions = sessions;
             ap.notifyDataSetChanged();
-            calculaTotal();
+            calculateTotal();
         }else{
             Log.i("RESULT CODE",""+resultCode);
         }
