@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void progress(View v){
-        Intent i = new Intent(this, ListaAvances.class);
+        Intent i = new Intent(this, ProgressList.class);
         startActivity(i);
 
     }

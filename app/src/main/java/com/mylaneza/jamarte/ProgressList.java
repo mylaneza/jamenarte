@@ -20,15 +20,15 @@ import java.util.Hashtable;
 
 
 
-public class ListaAvances extends AppCompatActivity  {
+public class ProgressList extends AppCompatActivity  {
 
 
     WebView wv;
 
-    private static final String WHITE = "#FFFFFF";
-    private static final String RED = "#FF3333";
-    private static final String BLUE = "#0080FF";
-    private static final String PURPLE = "#9933FF";
+    public static final String WHITE = "#FFFFFF";
+    public static final String RED = "#FF3333";
+    public static final String BLUE = "#0080FF";
+    public static final String PURPLE = "#9933FF";
 
     private static final String SP_JAMARTE = "com.mylaneza.jamarte.SP";
     private static final String SP_SCHOOL = "com.mylaneza.jamarte.school";
@@ -56,8 +56,8 @@ public class ListaAvances extends AppCompatActivity  {
      */
     private void loadData(String school){
         DBHelper db = new DBHelper(this);
-        Member[] miembros = db.getMiembros();
-        Lesson[] lecciones = db.getLeccionesDeEscuela(school);
+        Member[] members = db.getMiembros();
+        Lesson[] lessons = db.getLeccionesDeEscuela(school);
         db.close();
         StringBuilder pageHeader = new StringBuilder();
         pageHeader.append("<html>");
@@ -93,26 +93,24 @@ public class ListaAvances extends AppCompatActivity  {
         pageHeader.append("</head>");
         pageHeader.append("<body>");
         pageHeader.append("<table border=\"1\">");
-        StringBuilder table = new StringBuilder("<tr><th>Miembro</th>");
-        //Log.i("Avances",""+lecciones.length);
-        for (Lesson leccione : lecciones) {
+        StringBuilder table = new StringBuilder("<tr><th>Member</th>");
+
+        for (Lesson lesson : lessons) {
             table.append("<th>");
-            table.append( leccione.level);
+            table.append( lesson.level);
             table.append("-");
-            table.append(leccione.name);
+            table.append(lesson.name);
             table.append("</th>");
         }
         table.append("</tr>");
-        int count = 1;
-        for (Member miembro : miembros) {
-            //Avance[] arr1 = db.getAvances(miembro.id);
-            Progress[] arr1 = db.getListaAvances(school,miembro.id);
-            boolean hasBeenPresent = false;
-            //Log.i("Miembro",miembro.nickname);
-            for(Progress a : arr1 ){
 
+        for (Member member : members) {
+
+            Progress[] arr1 = db.getListaAvances(school,member.id);
+            boolean hasBeenPresent = false;
+
+            for(Progress a : arr1 ){
                 if(a != null && a.rol != 0){
-                    //Log.i("Leccion "+a.leccion,"Rol"+a.rol);
                     hasBeenPresent = true;
                     break;
                 }
@@ -123,20 +121,20 @@ public class ListaAvances extends AppCompatActivity  {
 
             StringBuilder row = new StringBuilder();
             row.append("<tr><td>");
-            row.append(miembro.nickname);
+            row.append(member.nickname);
             row.append("</td>");
 
 
-            Hashtable<Long, Progress> avances = setAvances(arr1);
-            for (Lesson leccione : lecciones) {
-                Progress avance = avances.get(leccione.id);
-                if (avance == null) {
+            Hashtable<Long, Progress> progressMap = setProgressMap(arr1);
+            for (Lesson lesson : lessons) {
+                Progress progress = progressMap.get(lesson.id);
+                if (progress == null) {
                     /*row.append("<td bgcolor=\"");
                     row.append(WHITE);
                     row.append("\">&nbsp;</td>");*/
                     row.append("<td class=\"none\">&nbsp;</td>");
                 }else {
-                    switch (avance.rol) {
+                    switch (progress.rol) {
                         case 0:
                            /* row.append( "<td bgcolor=\"");
                             row.append(WHITE);
@@ -165,7 +163,7 @@ public class ListaAvances extends AppCompatActivity  {
                 }
             }
             row.append("</tr>");
-            table.append(row.toString());
+            table.append(row);
 
 
         }
@@ -180,10 +178,10 @@ public class ListaAvances extends AppCompatActivity  {
 
     }
 
-    public Hashtable<Long, Progress> setAvances(Progress[] avances){
-        Hashtable<Long, Progress> avn = new Hashtable<Long, Progress>();
-        for (Progress avance : avances) {
-            avn.put(avance.lessonId, avance);
+    public Hashtable<Long, Progress> setProgressMap(Progress[] progressList){
+        Hashtable<Long, Progress> avn = new Hashtable<>();
+        for (Progress progress : progressList) {
+            avn.put(progress.lessonId, progress);
         }
         return avn;
     }
